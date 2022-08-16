@@ -1,0 +1,33 @@
+name: HealthBar-Reloaded
+version: ${project.version}
+main: com.gmail.davideblade99.healthbar.HealthBar
+author: DavideBlade
+description: ${project.description}
+load: POSTWORLD
+
+commands:
+   healthbar:
+      description: "Main command for HealthBar, use /hbr help for commands."
+      usage: /<command> [help|reload]
+      aliases: [hbr,hbar]
+
+permissions:
+   healthbar.*:
+      description: Gives access to all HealthBar' permissions.
+      children:
+         healthbar.commands.*: true
+         healthbar.see: true
+   healthbar.commands.*:
+      description: Gives access to all HealthBar' commands.
+      children:
+         healthbar.help: true
+         healthbar.reload: true
+   healthbar.see:
+      description: Allows viewing of health bars.
+      default: op
+   healthbar.help:
+      description: Gives access to use /hbr help command.
+      default: op
+   healthbar.reload:
+      description: Gives access to use /hbr reload command.
+      default: op
