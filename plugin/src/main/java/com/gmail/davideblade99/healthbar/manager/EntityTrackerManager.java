@@ -229,7 +229,7 @@ public final class EntityTrackerManager {
 
         // What type of health should be displayed?
         final String displayString;
-        switch (settings.mobBarStyle) {
+        switch (settings.mobBarType) {
             case BAR:
                 displayString = settings.mobBar.get(Utils.roundUpPositiveWithMax(health / max * 20.0, 20));
                 break;

@@ -206,9 +206,9 @@ public final class PlayerBarManager {
         setupBelowBar();
 
         // Setup after bar
-        if (plugin.getSettings().playerAfterBarStyle == BarType.BAR)
+        if (plugin.getSettings().playerAfterBarType == BarType.BAR)
             createCustomPlayerBar(mainScoreboard, Utils.loadYamlFile("custom-player-bar.yml", plugin));
-        else if (plugin.getSettings().playerAfterBarStyle == BarType.CUSTOM_TEXT)
+        else if (plugin.getSettings().playerAfterBarType == BarType.CUSTOM_TEXT)
             createDefaultPlayerBar(mainScoreboard, plugin.getSettings().barAfterStyle);
         // else creates the teams at the moment
 

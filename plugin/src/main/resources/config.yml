@@ -83,7 +83,7 @@ mob-bars:
   # Should the bar be shown on renamed mobs?
   show-on-named-mobs: true
 
-  # The style for the bar. You can choose between 3 style (1,2,3).
+  # The style for the bar. You can choose between 5 style (1,2,3,4,5).
   display-style: 1
 
   # Always show health bars on all the valid mobs.

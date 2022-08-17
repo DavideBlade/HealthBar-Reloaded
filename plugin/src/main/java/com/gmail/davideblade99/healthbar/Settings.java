@@ -10,7 +10,6 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -29,7 +28,7 @@ public final class Settings {
     public final boolean barAfterUseTextMode;
     public final int barAfterHideDelay;
     public final boolean useCustomBarAfter;
-    public final BarType playerAfterBarStyle;
+    public final BarType playerAfterBarType;
     public final boolean belowBarEnabled;
     public final String belowBarText;
     public final boolean belowBarUseHearts;
@@ -40,13 +39,14 @@ public final class Settings {
     /* Mob settings */
     public final boolean mobBarEnabled;
     public final boolean showMobBarOnCustomNames;
+    public final int mobBarStyle;
     public final boolean mobBarUseTextMode;
     public final boolean mobBarUseCustomText;
     public final String mobBarCustomText;
     public final int mobBarHideDelay;
     public final boolean mobBarSemiHidden;
     public final boolean useCustomMobBar;
-    public final BarType mobBarStyle;
+    public final BarType mobBarType;
     public final List<String> mobDisabledWorlds; // Disabled worlds names
     public final List<EntityType> mobDisabledTypes; // Disabled mobs
     public final Map<String, String> localeMap; // Name translation map
@@ -72,11 +72,11 @@ public final class Settings {
         this.useCustomBarAfter = config.getBoolean(Nodes.PLAYER_AFTERBAR_USE_CUSTOM.path);
 
         if (useCustomBarAfter)
-            playerAfterBarStyle = BarType.BAR; // Custom bars - highest priority on configs
+            playerAfterBarType = BarType.BAR; // Custom bars - highest priority on configs
         else if (!barAfterUseTextMode)
-            playerAfterBarStyle = BarType.CUSTOM_TEXT; // Text - maybe custom - medium priority on configs
+            playerAfterBarType = BarType.CUSTOM_TEXT; // Text - maybe custom - medium priority on configs
         else
-            playerAfterBarStyle = BarType.DEFAULT_TEXT; // Default bar - low priority on configs
+            playerAfterBarType = BarType.DEFAULT_TEXT; // Default bar - low priority on configs
 
         this.belowBarEnabled = config.getBoolean(Nodes.PLAYER_BELOWBAR_ENABLE.path);
         this.belowBarText = Utils.replaceSymbols(config.getString(Nodes.PLAYER_BELOWBAR_TEXT.path));
@@ -88,6 +88,7 @@ public final class Settings {
         /* Mob settings */
         this.mobBarEnabled = config.getBoolean(Nodes.MOB_ENABLE.path);
         this.showMobBarOnCustomNames = config.getBoolean(Nodes.MOB_SHOW_ON_NAMED.path);
+        this.mobBarStyle = config.getInt(Nodes.MOB_STYLE.path);
         this.mobBarUseTextMode = config.getBoolean(Nodes.MOB_TEXT_MODE.path);
         this.mobBarUseCustomText = config.getBoolean(Nodes.MOB_CUSTOM_TEXT_ENABLE.path);
         this.mobBarHideDelay = config.getBoolean(Nodes.MOB_ALWAYS_SHOWN.path) ? 0 : config.getInt(Nodes.MOB_DELAY.path) * 20;
@@ -97,18 +98,18 @@ public final class Settings {
         String mobBarCustomText = Utils.replaceSymbols(config.getString(Nodes.MOB_CUSTOM_TEXT.path));
         if (useCustomMobBar) {
             // Custom bars - highest priority on configs
-            mobBarStyle = BarType.BAR;
+            this.mobBarType = BarType.BAR;
         } else if (mobBarUseTextMode) {
             // Text - maybe custom - medium priority on configs
 
             if (mobBarUseCustomText) {
                 mobBarCustomText = mobBarCustomText.replace("{health}", "{h}").replace("{max}", "{m}").replace("{name}", "{n}");
-                mobBarStyle = BarType.CUSTOM_TEXT;
+                this.mobBarType = BarType.CUSTOM_TEXT;
             } else
-                mobBarStyle = BarType.DEFAULT_TEXT;
+                this.mobBarType = BarType.DEFAULT_TEXT;
         } else {
             // Default bar - low priority on configs
-            mobBarStyle = BarType.BAR;
+            this.mobBarType = BarType.BAR;
         }
         this.mobBarCustomText = mobBarCustomText;
 
@@ -116,11 +117,11 @@ public final class Settings {
         this.mobDisabledTypes = ImmutableList.copyOf(Utils.getTypesFromString(config.getString(Nodes.MOB_DISABLED_TYPES.path)));
         this.localeMap = mobBarUseCustomText ? ImmutableMap.copyOf(Utils.getTranslationMap(plugin)) : ImmutableMap.of();
 
-        if (mobBarStyle == BarType.BAR) {
+        if (mobBarType == BarType.BAR) {
             if (useCustomMobBar)
                 this.mobBar = ImmutableList.copyOf(MobBarsUtil.getCustomBars(Utils.loadYamlFile("custom-mob-bar.yml", plugin)));
             else
-                this.mobBar = ImmutableList.copyOf(MobBarsUtil.getDefaultsBars(config));
+                this.mobBar = ImmutableList.copyOf(MobBarsUtil.getDefaultsBars(this));
         } else
             this.mobBar = ImmutableList.copyOf(new String[21]); // Setup for health array
 
