@@ -66,6 +66,10 @@ public final class EntityTrackerManager {
         if (settings.mobDisabledWorlds.contains(attacked.getWorld().getName().toLowerCase()))
             return;
 
+        // Check NPC of Citizens (and maybe other plugins)
+        if (attacked.hasMetadata("NPC"))
+            return;
+
         // Custom name check
         if (isNamed(attacked)) {
             if (!settings.showMobBarOnCustomNames)

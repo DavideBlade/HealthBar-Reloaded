@@ -44,6 +44,10 @@ public final class PlayerBarManager {
         // First off, update health below
         updateHealthBelow(player);
 
+        // Check NPC of Citizens (and maybe other plugins)
+        if (player.hasMetadata("NPC"))
+            return;
+
         // If the plugin uses health bar after, and the delay is 0, set it
         if (plugin.getSettings().afterBarEnabled && plugin.getSettings().barAfterHideDelay == 0)
             plugin.getPlayerBarManager().setHealthSuffix(player);
@@ -56,7 +60,7 @@ public final class PlayerBarManager {
      * @param player Player whose permissions to check
      */
     public void updateScoreboard(@NotNull final Player player) {
-        if (!player.isOnline()) // The method is called delayed: the player may be logged out
+        if (!player.isOnline()) // The method is (sometimes) called delayed: the player may be logged out
             return;
 
         // Permission check
@@ -146,7 +150,7 @@ public final class PlayerBarManager {
             final int intHealth = Utils.roundUpPositive(health);
             final int intMax = Utils.roundUpPositive(max);
 
-            String color = getColor(health, max);
+            final String color = getColor(health, max);
             Team team = mainScoreboard.getTeam("hbr" + intHealth + "-" + intMax);
             if (team == null) {
                 team = mainScoreboard.registerNewTeam("hbr" + intHealth + "-" + intMax);
