@@ -5,6 +5,7 @@ api-version: 1.14
 author: DavideBlade
 description: ${project.description}
 load: POSTWORLD
+website: https://www.spigotmc.org/resources/healthbar-reloaded.104616/
 
 commands:
    healthbar:
