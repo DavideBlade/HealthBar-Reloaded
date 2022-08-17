@@ -38,7 +38,7 @@ public final class HealthBar extends JavaPlugin {
         }
 
         instance = this;
-        namespace = new NamespacedKey(instance, "HealthBar");
+        namespace = new NamespacedKey(this, "HealthBar");
         settings = new Settings(this);
         playerBarManager = new PlayerBarManager(this);
         entityTrackerManager = new EntityTrackerManager(this);
