@@ -74,6 +74,7 @@ public final class HealthBar extends JavaPlugin {
         settings = null;
         entityTrackerManager = null;
         playerBarManager = null;
+        namespace = null;
 
         Bukkit.getConsoleSender().sendMessage("§aHealthBar disabled: all the health bars have been removed.");
     }
