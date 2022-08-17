@@ -1,6 +1,7 @@
 name: HealthBar-Reloaded
 version: ${project.version}
 main: com.gmail.davideblade99.healthbar.HealthBar
+api-version: 1.14
 author: DavideBlade
 description: ${project.description}
 load: POSTWORLD
