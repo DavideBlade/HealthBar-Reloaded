@@ -17,7 +17,9 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-
+/**
+ * Main plugin class
+ */
 public final class HealthBar extends JavaPlugin {
 
     private final static String[] SUPPORTED_VERSIONS = {"1.14", "1.15", "1.16", "1.17", "1.18", "1.19"};

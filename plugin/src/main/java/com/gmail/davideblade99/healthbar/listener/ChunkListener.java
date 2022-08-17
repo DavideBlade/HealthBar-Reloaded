@@ -17,6 +17,8 @@ public final class ChunkListener extends HealthBarListener {
 
     /**
      * Show the health bar on the mobs that are in the loaded chunk
+     *
+     * @param event Event triggered when the server unloads a chunk
      */
     @EventHandler
     public void onChunkLoad(final ChunkLoadEvent event) {
@@ -30,6 +32,8 @@ public final class ChunkListener extends HealthBarListener {
 
     /**
      * Remove the health bar from the mobs in the unloaded chunk
+     *
+     * @param event Event triggered when the server loads a chunk
      */
     @EventHandler
     public void onChunkUnload(final ChunkUnloadEvent event) {

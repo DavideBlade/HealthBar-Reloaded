@@ -121,7 +121,7 @@ public final class Settings {
             if (useCustomMobBar)
                 this.mobBar = ImmutableList.copyOf(MobBarsUtil.getCustomBars(Utils.loadYamlFile("custom-mob-bar.yml", plugin)));
             else
-                this.mobBar = ImmutableList.copyOf(MobBarsUtil.getDefaultsBars(this));
+                this.mobBar = ImmutableList.copyOf(MobBarsUtil.getDefaultsBars(this.mobBarStyle));
         } else
             this.mobBar = ImmutableList.copyOf(new String[21]); // Setup for health array
 

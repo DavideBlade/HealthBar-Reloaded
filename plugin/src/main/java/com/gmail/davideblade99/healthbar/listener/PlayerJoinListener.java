@@ -1,7 +1,6 @@
 package com.gmail.davideblade99.healthbar.listener;
 
 import com.gmail.davideblade99.healthbar.HealthBar;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,6 +16,8 @@ public final class PlayerJoinListener extends HealthBarListener {
     /**
      * Remove immediately the health bar from the tab in order to not cause compatibility problems with other
      * plugins that change the tab
+     *
+     * @param event Event triggered when a player joins the server
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void joinLowest(final PlayerJoinEvent event) {

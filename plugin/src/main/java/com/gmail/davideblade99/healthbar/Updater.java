@@ -57,6 +57,10 @@ public final class Updater {
 
     /**
      * Compare the version found with the plugin's version
+     *
+     * @param versionOfSpigot Version found on SpigotMC
+     *
+     * @return True if the passed version does not match the plugin version, otherwise false
      */
     private boolean isNewerVersion(@Nullable final String versionOfSpigot) {
         return !plugin.getDescription().getVersion().equals(versionOfSpigot);

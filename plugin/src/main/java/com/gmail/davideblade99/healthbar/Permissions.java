@@ -1,5 +1,8 @@
 package com.gmail.davideblade99.healthbar;
 
+/**
+ * Class containing all the various permissions of the plugin
+ */
 public final class Permissions {
 
     /** Permission required to view the list of plugin commands */

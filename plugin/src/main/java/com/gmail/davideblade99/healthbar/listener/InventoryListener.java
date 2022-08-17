@@ -18,6 +18,8 @@ public final class InventoryListener extends HealthBarListener {
 
     /**
      * Restore the name of an entity when a player tries to open his inventory
+     *
+     * @param event Event triggered when a player opens an inventory
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityInventoryOpen(final InventoryOpenEvent event) {
@@ -32,6 +34,8 @@ public final class InventoryListener extends HealthBarListener {
 
     /**
      * Restore the health bar when the player close the inventory
+     *
+     * @param event Event triggered when a player closes an inventory
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityInventoryClose(final InventoryCloseEvent event) {

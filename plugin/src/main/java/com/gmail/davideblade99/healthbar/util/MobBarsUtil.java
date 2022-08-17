@@ -1,6 +1,5 @@
 package com.gmail.davideblade99.healthbar.util;
 
-import com.gmail.davideblade99.healthbar.Settings;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,12 +14,17 @@ public final class MobBarsUtil {
 
     /**
      * Used to retrieve the array that contains the health bars from the configs
+     *
+     * @param barStyle Bar style
+     *
+     * @return An array in which each element represents the bar to be shown based on the corresponding health of
+     * the mob
      */
     @NotNull
-    public static String[] getDefaultsBars(@NotNull final Settings settings) {
+    public static String[] getDefaultsBars(final int barStyle) {
         final String[] barArray = new String[21];
 
-        switch (settings.mobBarStyle) {
+        switch (barStyle) {
             case 2:
                 barArray[0] = "§c|§7|||||||||||||||||||";
                 barArray[1] = "§c|§7|||||||||||||||||||";
@@ -145,6 +149,11 @@ public final class MobBarsUtil {
 
     /**
      * Load the bars from a custom file
+     *
+     * @param config Configuration file from which to retrieve custom bar settings
+     *
+     * @return An array in which each element represents the bar to be shown based on the corresponding health of
+     * the mob. If the element is {@code null}, it means that no bar is set (and therefore nothing will be shown).
      */
     @NotNull
     public static String[] getCustomBars(@NotNull final FileConfiguration config) {

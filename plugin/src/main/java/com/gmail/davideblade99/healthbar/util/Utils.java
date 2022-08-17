@@ -185,7 +185,7 @@ public final class Utils {
      * @param max Upper limit
      *
      * @return {@code max} if the number passed as parameter exceeds the maximum while it returns 0 if it is
-     * negative. If d > 0 and d <= max then the number is rounded up and returned.
+     * negative. If {@literal d > 0} and {@literal d <= max} then the number is rounded up and returned.
      *
      * @see #roundUpPositive(double)
      */

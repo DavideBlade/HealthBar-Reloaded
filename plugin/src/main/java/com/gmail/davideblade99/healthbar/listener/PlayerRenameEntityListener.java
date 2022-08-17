@@ -19,6 +19,8 @@ public final class PlayerRenameEntityListener extends HealthBarListener {
 
     /**
      * Hide the health bar to show the name given with the name tag
+     *
+     * @param event Event triggered when a player interacts with an entity
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerRenameEntity(final PlayerInteractEntityEvent event) {

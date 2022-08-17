@@ -23,6 +23,8 @@ public final class HealthListener extends HealthBarListener {
     /**
      * Hides the health bar immediately to allow compatibility with other plugins that (incorrectly) use custom
      * entity names (e.g., to recognize certain bosses and give rewards)
+     *
+     * @param event Event triggered when a player dies
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDeath(final EntityDeathEvent event) {
