@@ -1,5 +1,6 @@
 package com.gmail.davideblade99.healthbar;
 
+import com.gmail.davideblade99.healthbar.Updater.ResponseHandler;
 import com.gmail.davideblade99.healthbar.api.internal.BackendAPI;
 import com.gmail.davideblade99.healthbar.command.Commands;
 import com.gmail.davideblade99.healthbar.listener.*;
@@ -14,6 +15,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 
 public final class HealthBar extends JavaPlugin {
@@ -47,6 +49,20 @@ public final class HealthBar extends JavaPlugin {
         showHealthBar();
 
         BackendAPI.setImplementation(new DefaultBackendAPI(this));
+
+        // Check for update
+        new Updater(this).checkForUpdate(new ResponseHandler() {
+            @Override
+            public void onUpdateFound(@NotNull final String newVersion) {
+                final String pluginVersion = getDescription().getVersion();
+                final String currentVersion = pluginVersion.contains(" ") ? pluginVersion.split(" ")[0] : pluginVersion;
+
+                final ConsoleCommandSender console = Bukkit.getConsoleSender();
+                console.sendMessage("§aFound a new version: " + newVersion + " (Yours: v" + currentVersion + ")");
+                console.sendMessage("§aDownload it on spigot:");
+                console.sendMessage("§aspigotmc.org/resources/104616");
+            }
+        });
     }
 
     @Override
