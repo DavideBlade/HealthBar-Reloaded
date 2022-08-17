@@ -268,7 +268,7 @@ public final class EntityTrackerManager {
     private void updatePlayerHealthBar(@NotNull final Player player) {
         // If the health is 0 remove the bar
         if (player.getHealth() == 0)
-            plugin.getPlayerBarManager().hideHealthBar(player);
+            plugin.getPlayerBarManager().hideAfterHealthBar(player);
         else
             plugin.getPlayerBarManager().setHealthSuffix(player);
     }
@@ -293,7 +293,7 @@ public final class EntityTrackerManager {
     private void hidePlayerBarLater(@NotNull final Player player) {
         playerTable.put(player.getName(), Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             playerTable.remove(player.getName());
-            plugin.getPlayerBarManager().hideHealthBar(player);
+            plugin.getPlayerBarManager().hideAfterHealthBar(player);
         }, plugin.getSettings().barAfterHideDelay));
     }
 

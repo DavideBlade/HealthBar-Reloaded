@@ -95,11 +95,11 @@ public final class PlayerBarManager {
     }
 
     /**
-     * Hide the bar of the specified player
+     * Hide the bar after the name of the specified player
      *
      * @param player Player whose bar must be hidden
      */
-    public void hideHealthBar(@NotNull final Player player) {
+    public void hideAfterHealthBar(@NotNull final Player player) {
         Team team = mainScoreboard.getTeam("hbr0");
         if (team == null) {
             team = mainScoreboard.registerNewTeam("hbr0"); // Empty team (without prefix & suffix)

@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Event fired when the health bar of a player is hidden
+ * Event fired when the health bar after the name of a player is hidden
  */
 public class BarHideEvent extends Event {
 
