@@ -122,6 +122,7 @@
 
         <pluginManagement>
             <plugins>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
@@ -134,6 +135,11 @@
                         <sourceFileExcludes>
                             <exclude>**/healthbar/api/internal/**/*.java</exclude>
                         </sourceFileExcludes>
+                        <links>
+                            <link>https://javadoc.io/doc/org.jetbrains/annotations/23.0.0</link>
+                            <link>https://hub.spigotmc.org/javadocs/bukkit</link>
+                            <link>https://www.mythicmobs.net/javadocs/</link>
+                        </links>
                     </configuration>
                 </plugin>
 
@@ -144,5 +150,20 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>
