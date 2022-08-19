@@ -5,6 +5,9 @@ import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The main entry point for the HealthBar API
+ */
 public final class HealthBarAPI {
 
     private HealthBarAPI() {
