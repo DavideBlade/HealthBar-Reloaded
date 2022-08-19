@@ -6,6 +6,8 @@ import com.gmail.davideblade99.healthbar.command.Commands;
 import com.gmail.davideblade99.healthbar.listener.*;
 import com.gmail.davideblade99.healthbar.manager.EntityTrackerManager;
 import com.gmail.davideblade99.healthbar.manager.PlayerBarManager;
+import io.lumine.mythic.bukkit.BukkitAPIHelper;
+import io.lumine.mythic.bukkit.MythicBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -22,14 +24,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class HealthBar extends JavaPlugin {
 
-    private final static String[] SUPPORTED_VERSIONS = {"1.14", "1.15", "1.16", "1.17", "1.18", "1.19"};
+    private final static String[] SUPPORTED_VERSIONS = {"1.17", "1.18", "1.19"};
     public final static String CHAT_PREFIX = "§2[§aHealthBar§2] ";
 
     private static HealthBar instance;
     private Settings settings;
     private EntityTrackerManager entityTrackerManager;
     private PlayerBarManager playerBarManager;
-    public NamespacedKey namespace;
+    private NamespacedKey namespace;
+    private MythicBukkit mythicMobs;
 
     @Override
     public void onEnable() {
@@ -44,6 +47,8 @@ public final class HealthBar extends JavaPlugin {
         settings = new Settings(this);
         playerBarManager = new PlayerBarManager(this);
         entityTrackerManager = new EntityTrackerManager(this);
+
+        checkHooks();
 
         registerListeners();
         registerCommands();
@@ -77,6 +82,7 @@ public final class HealthBar extends JavaPlugin {
         entityTrackerManager = null;
         playerBarManager = null;
         namespace = null;
+        mythicMobs = null;
 
         Bukkit.getConsoleSender().sendMessage("§aHealthBar disabled: all the health bars have been removed.");
     }
@@ -158,6 +164,14 @@ public final class HealthBar extends JavaPlugin {
         return false;
     }
 
+    /**
+     * Method that is responsible for checking all HealthBar hooks and eventually initializing references
+     */
+    private void checkHooks() {
+        if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs"))
+            this.mythicMobs = MythicBukkit.inst();
+    }
+
     public Settings getSettings() {
         return settings;
     }
@@ -172,5 +186,13 @@ public final class HealthBar extends JavaPlugin {
 
     public PlayerBarManager getPlayerBarManager() {
         return playerBarManager;
+    }
+
+    public NamespacedKey getNamespace() {
+        return namespace;
+    }
+
+    public BukkitAPIHelper getMythicMobsAPI() {
+        return mythicMobs.getAPIHelper();
     }
 }

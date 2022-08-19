@@ -70,6 +70,10 @@ public final class EntityTrackerManager {
         if (attacked.hasMetadata("NPC"))
             return;
 
+        // Check mobs of MythicMobs
+        if (!settings.barOnMythicMobs && plugin.getMythicMobsAPI().isMythicMob(attacked))
+            return;
+
         // Custom name check
         if (isNamed(attacked)) {
             if (!settings.showMobBarOnCustomNames)
@@ -138,7 +142,7 @@ public final class EntityTrackerManager {
      * @param mob Mob whose bar is to be hidden
      */
     public void hideMobBar(@NotNull final LivingEntity mob) {
-        if (!mob.getPersistentDataContainer().has(plugin.namespace, PersistentDataType.BYTE))
+        if (!mob.getPersistentDataContainer().has(plugin.getNamespace(), PersistentDataType.BYTE))
             return; // It's a real name! Don't touch it
 
         // Cancel eventual task
@@ -152,7 +156,7 @@ public final class EntityTrackerManager {
                 // Return only if found, else hide normally
                 mob.setCustomName(sb.getName());
                 mob.setCustomNameVisible(sb.isShown());
-                mob.getPersistentDataContainer().remove(plugin.namespace);
+                mob.getPersistentDataContainer().remove(plugin.getNamespace());
                 return;
             }
         }
@@ -160,7 +164,7 @@ public final class EntityTrackerManager {
         // Not a custom named mob, use default method (hide the name)
         mob.setCustomName("");
         mob.setCustomNameVisible(false);
-        mob.getPersistentDataContainer().remove(plugin.namespace);
+        mob.getPersistentDataContainer().remove(plugin.getNamespace());
     }
 
     /**
@@ -190,7 +194,7 @@ public final class EntityTrackerManager {
         if (cname == null)
             return null;
 
-        if (mob.getPersistentDataContainer().has(plugin.namespace, PersistentDataType.BYTE)) {
+        if (mob.getPersistentDataContainer().has(plugin.getNamespace(), PersistentDataType.BYTE)) {
             if (plugin.getSettings().showMobBarOnCustomNames) {
                 final CustomNameSetting sb = namesTable.get(mob.getEntityId());
                 if (sb != null)
@@ -214,7 +218,7 @@ public final class EntityTrackerManager {
 
             return team != null && team.getName().contains("hbr");
         } else
-            return entity.getPersistentDataContainer().has(plugin.namespace, PersistentDataType.BYTE);
+            return entity.getPersistentDataContainer().has(plugin.getNamespace(), PersistentDataType.BYTE);
     }
 
     /**
@@ -254,7 +258,7 @@ public final class EntityTrackerManager {
                 break;
         }
         entity.setCustomName(displayString);
-        entity.getPersistentDataContainer().set(plugin.namespace, PersistentDataType.BYTE, (byte) 1);
+        entity.getPersistentDataContainer().set(plugin.getNamespace(), PersistentDataType.BYTE, (byte) 1);
 
         if (!settings.mobBarSemiHidden && displayString != null) // Check for visibility
             entity.setCustomNameVisible(true);
@@ -306,7 +310,7 @@ public final class EntityTrackerManager {
      */
     @NotNull
     private String getName(@NotNull final LivingEntity mob) {
-        if (!mob.getPersistentDataContainer().has(plugin.namespace, PersistentDataType.BYTE))
+        if (!mob.getPersistentDataContainer().has(plugin.getNamespace(), PersistentDataType.BYTE))
             return mob.getCustomName(); // Return real name
 
         final CustomNameSetting sb = namesTable.get(mob.getEntityId());
@@ -325,6 +329,6 @@ public final class EntityTrackerManager {
      * @return True if the entity has a custom name (not set by HealthBar), otherwise false
      */
     private boolean isNamed(@NotNull final LivingEntity entity) {
-        return entity.getCustomName() != null && !entity.getPersistentDataContainer().has(plugin.namespace, PersistentDataType.BYTE);
+        return entity.getCustomName() != null && !entity.getPersistentDataContainer().has(plugin.getNamespace(), PersistentDataType.BYTE);
     }
 }

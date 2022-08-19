@@ -125,6 +125,12 @@ mob-bars:
   disabled-types: creeper,zombie,skeleton,iron_golem
 
 
+# Compatibility with other plugins
+hooks:
+  # If you have MythicMobs, enable this to hide health on mobs of the plugin
+  MythicMobs: false
+
+
 
 
 

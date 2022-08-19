@@ -1,12 +1,13 @@
 name: HealthBar-Reloaded
 version: ${project.version}
 main: com.gmail.davideblade99.healthbar.HealthBar
-api-version: 1.14
+api-version: ${spigot-api.version}
 authors: [DavideBlade, filoghost]
 description: ${project.description}
 load: POSTWORLD
-website: https://www.spigotmc.org/resources/healthbar-reloaded.104616/
 database: false
+website: https://www.spigotmc.org/resources/healthbar-reloaded.104616/
+softdepend: [MythicMobs]
 
 commands:
    healthbar:

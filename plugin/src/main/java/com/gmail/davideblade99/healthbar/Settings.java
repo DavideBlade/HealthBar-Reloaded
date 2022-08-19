@@ -53,6 +53,7 @@ public final class Settings {
     public final List<String> mobBar;
 
     /* Generic settings */
+    public final boolean barOnMythicMobs;
     public final boolean barInDeathMessages;
     public final boolean fixTabNames;
     public final boolean usePlayerPermissions;
@@ -126,6 +127,7 @@ public final class Settings {
             this.mobBar = ImmutableList.copyOf(new String[21]); // Setup for health array
 
 
+        this.barOnMythicMobs = !config.getBoolean(Nodes.HOOK_MYTHICMOBS.path);
         this.barInDeathMessages = config.getBoolean(Nodes.BAR_IN_DEATH_MESSAGES.path);
         this.usePlayerPermissions = config.getBoolean(Nodes.USE_PLAYER_PERMISSIONS.path);
         this.fixTabNames = config.getBoolean(Nodes.FIX_TAB_NAMES.path);
@@ -185,6 +187,7 @@ public final class Settings {
         MOB_DISABLED_WORLDS("mob-bars.disabled-worlds", "world_nether,world_the_end"),
         MOB_DISABLED_TYPES("mob-bars.disabled-types", "creeper,zombie,skeleton,iron_golem"),
 
+        HOOK_MYTHICMOBS("hooks.MythicMobs", false),
         FIX_TAB_NAMES("fix-tab-names", true),
         BAR_IN_DEATH_MESSAGES("bar-in-death-messages", false),
         USE_PLAYER_PERMISSIONS("use-player-bar-permissions", false),
