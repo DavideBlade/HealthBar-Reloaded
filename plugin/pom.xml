@@ -53,6 +53,7 @@
         </profile>
     </profiles>
 
+    <!-- Build common to all profiles -->
     <build>
         <finalName>HealthBar-Reloaded</finalName>
 
