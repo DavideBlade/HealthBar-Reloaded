@@ -36,6 +36,8 @@ public final class HealthBar extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        d
         if (!supportedVersion()) {
             final ConsoleCommandSender console = Bukkit.getConsoleSender();
             console.sendMessage("§cThis version of HealthBar is compatible with the following versions: " + String.join(", ", SUPPORTED_VERSIONS));
