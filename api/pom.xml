@@ -20,26 +20,17 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>complete</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+    <properties>
+        <!-- Override the default setting and deploy the API -->
+        <maven.deploy.skip>false</maven.deploy.skip>
+    </properties>
 
-        <profile>
-            <!-- Skip javadoc creation -->
-            <id>no-javadoc</id>
-            <build/>
-        </profile>
-    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

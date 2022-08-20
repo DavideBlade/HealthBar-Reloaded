@@ -30,30 +30,6 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>complete</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- Skip javadoc creation -->
-            <id>no-javadoc</id>
-            <build/>
-        </profile>
-    </profiles>
-
-    <!-- Build common to all profiles -->
     <build>
         <finalName>HealthBar-Reloaded</finalName>
 
@@ -85,8 +61,14 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <configuration>
+                    <!-- Don't create the reduced pom file -->
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <shadedArtifactAttached>false</shadedArtifactAttached>
                     <filters>
