@@ -6,7 +6,7 @@ I hope it can be as useful as it was years ago :) <br/><br/>
 
 #### New HealthBar page: https://www.spigotmc.org/resources/healthbar-reloaded.104616/
 
-#### API Javadoc for developers: https://davideblade.github.io/HealthBar-Reloaded/
+#### API Javadoc for developers: https://ci.codemc.io/job/DavideBlade/job/HealthBar-Reloaded/javadoc/
 
 ## Maven
 ```xml
