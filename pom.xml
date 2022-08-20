@@ -119,7 +119,7 @@
                     <configuration>
                         <!-- Place the documentation in the root folder -->
                         <reportOutputDirectory>${session.executionRootDirectory}</reportOutputDirectory>
-                        <destDir>javadoc</destDir>
+                        <destDir>docs</destDir>
                         <windowtitle>HealthBar API ${project.version}</windowtitle>
                         <sourceFileIncludes>
                             <include>**/healthbar/api/**/*.java</include>
