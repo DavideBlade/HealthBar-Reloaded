@@ -117,9 +117,6 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.4.1</version>
                     <configuration>
-                        <!-- Place the documentation in the root folder -->
-                        <reportOutputDirectory>${session.executionRootDirectory}</reportOutputDirectory>
-                        <destDir>docs</destDir>
                         <windowtitle>HealthBar API ${project.version}</windowtitle>
                         <sourceFileIncludes>
                             <include>**/healthbar/api/**/*.java</include>
