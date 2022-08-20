@@ -14,6 +14,11 @@ public class BarHideEvent extends Event {
 
     private final OfflinePlayer player;
 
+    /**
+     * Creates a new instance of the event
+     *
+     * @param player Player whose health bar has been hidden
+     */
     public BarHideEvent(@NotNull final OfflinePlayer player) {
         super(false);
 
@@ -21,7 +26,7 @@ public class BarHideEvent extends Event {
     }
 
     /**
-     * @return The player whose health bar has been hidden.
+     * @return The player whose health bar has been hidden
      */
     @NotNull
     public OfflinePlayer getOfflinePlayer() {
