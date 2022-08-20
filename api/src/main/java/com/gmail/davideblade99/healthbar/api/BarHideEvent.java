@@ -36,6 +36,7 @@ public class BarHideEvent extends Event {
 
     /**
      * @see Event
+     * @see <a href="https://bukkit.fandom.com/wiki/Event_API_Reference#Creating_Custom_Events">wiki</a>
      */
     @NotNull
     public static HandlerList getHandlerList() {
