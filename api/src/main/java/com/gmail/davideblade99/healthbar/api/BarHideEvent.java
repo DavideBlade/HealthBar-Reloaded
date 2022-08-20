@@ -34,11 +34,17 @@ public class BarHideEvent extends Event {
         return handlers;
     }
 
+    /**
+     * @see Event
+     */
     @NotNull
     public static HandlerList getHandlerList() {
         return handlers;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @NotNull
     @Override
     public final String getEventName() {
