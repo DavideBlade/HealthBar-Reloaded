@@ -71,7 +71,7 @@ public final class EntityTrackerManager {
             return;
 
         // Check mobs of MythicMobs
-        if (!settings.barOnMythicMobs && plugin.getMythicMobsAPI().isMythicMob(attacked))
+        if (!settings.barOnMythicMobs && plugin.getMythicMobsAPI() != null && plugin.getMythicMobsAPI().isMythicMob(attacked))
             return;
 
         // Custom name check
