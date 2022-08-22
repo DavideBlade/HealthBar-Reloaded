@@ -2,6 +2,7 @@ package com.gmail.davideblade99.healthbar.manager;
 
 import com.gmail.davideblade99.healthbar.HealthBar;
 import com.gmail.davideblade99.healthbar.Settings;
+import com.gmail.davideblade99.healthbar.api.HealthBarAPI;
 import com.gmail.davideblade99.healthbar.util.CustomNameSetting;
 import com.gmail.davideblade99.healthbar.util.Utils;
 import org.bukkit.Bukkit;
@@ -192,17 +193,15 @@ public final class EntityTrackerManager {
     public String getNameWhileHavingBar(@NotNull final LivingEntity mob) {
         final String cname = mob.getCustomName();
         if (cname == null)
-            return null;
+            return null; // No bar and no (original) custom name
 
-        if (mob.getPersistentDataContainer().has(plugin.getNamespace(), PersistentDataType.BYTE)) {
-            if (plugin.getSettings().showMobBarOnCustomNames) {
-                final CustomNameSetting sb = namesTable.get(mob.getEntityId());
-                if (sb != null)
-                    return sb.getName();
-            }
-            return null;
-        } else
-            return cname; // Real name, return it
+        // If the mob has the bar
+        if (HealthBarAPI.hasBar(mob)) {
+            final CustomNameSetting sb = namesTable.get(mob.getEntityId());
+
+            return sb != null ? sb.getName() : null;
+        }
+        return cname; // Real name, return it
     }
 
     /**
