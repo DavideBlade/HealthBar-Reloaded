@@ -15,9 +15,14 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
 
 /**
  * Main plugin class
@@ -33,6 +38,13 @@ public final class HealthBar extends JavaPlugin {
     private PlayerBarManager playerBarManager;
     private NamespacedKey namespace;
     private MythicBukkit mythicMobs;
+
+    /**
+     * Needed for testing
+     */
+    protected HealthBar(@NotNull final JavaPluginLoader loader, @NotNull final PluginDescriptionFile description, @NotNull final File dataFolder, @NotNull final File file) {
+        super(loader, description, dataFolder, file);
+    }
 
     @Override
     public void onEnable() {
@@ -192,7 +204,11 @@ public final class HealthBar extends JavaPlugin {
         return namespace;
     }
 
+    /**
+     * @return MythicMobs API or {@code null} if the plugin is not installed or enabled
+     */
+    @Nullable
     public BukkitAPIHelper getMythicMobsAPI() {
-        return mythicMobs.getAPIHelper();
+        return mythicMobs == null ? null : mythicMobs.getAPIHelper();
     }
 }

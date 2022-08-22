@@ -1,0 +1,37 @@
+name: HealthBar-Reloaded
+version: ${project.version}
+main: com.gmail.davideblade99.healthbar.HealthBar
+api-version: ${spigot-api.version}
+authors: [DavideBlade, filoghost]
+description: ${project.description}
+load: POSTWORLD
+database: false
+website: https://www.spigotmc.org/resources/healthbar-reloaded.104616/
+softdepend: [MythicMobs]
+
+commands:
+   healthbar:
+      description: "Main command for HealthBar, use /hbr help for commands."
+      usage: /<command> [help|reload]
+      aliases: [hbr,hbar]
+
+permissions:
+   healthbar.*:
+      description: Gives access to all HealthBar' permissions.
+      children:
+         healthbar.commands.*: true
+         healthbar.see: true
+   healthbar.commands.*:
+      description: Gives access to all HealthBar' commands.
+      children:
+         healthbar.help: true
+         healthbar.reload: true
+   healthbar.see:
+      description: Allows viewing of health bars.
+      default: op
+   healthbar.help:
+      description: Gives access to use /hbr help command.
+      default: op
+   healthbar.reload:
+      description: Gives access to use /hbr reload command.
+      default: op
