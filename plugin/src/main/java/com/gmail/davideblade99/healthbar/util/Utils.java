@@ -199,6 +199,7 @@ public final class Utils {
      *
      * @since v.2.0.3
      */
+    @NotNull
     public static String[] initialiseEmptyStringArray(final int size) {
         final String[] ret = new String[size];
         Arrays.fill(ret, "");
