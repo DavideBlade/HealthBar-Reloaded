@@ -124,7 +124,7 @@ public final class Settings {
             else
                 this.mobBar = ImmutableList.copyOf(MobBarsUtil.getDefaultsBars(this.mobBarStyle));
         } else
-            this.mobBar = ImmutableList.copyOf(new String[21]); // Setup for health array
+            this.mobBar = ImmutableList.copyOf(Utils.initialiseEmptyStringArray(21)); // Setup for health array
 
 
         this.barOnMythicMobs = !config.getBoolean(Nodes.HOOK_MYTHICMOBS.path);

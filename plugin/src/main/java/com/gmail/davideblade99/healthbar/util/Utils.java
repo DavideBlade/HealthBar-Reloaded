@@ -14,10 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class Utils {
 
@@ -191,5 +188,20 @@ public final class Utils {
      */
     public static int roundUpPositiveWithMax(final double d, final int max) {
         return d > max ? max : roundUpPositive(d);
+    }
+
+    /**
+     * Creates an array of empty strings of the specified size
+     *
+     * @param size Array length
+     *
+     * @return The string array created
+     *
+     * @since v.2.0.3
+     */
+    public static String[] initialiseEmptyStringArray(final int size) {
+        final String[] ret = new String[size];
+        Arrays.fill(ret, "");
+        return ret;
     }
 }
