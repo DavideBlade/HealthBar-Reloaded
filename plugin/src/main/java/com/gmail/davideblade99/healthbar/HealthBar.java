@@ -39,6 +39,10 @@ public final class HealthBar extends JavaPlugin {
     private NamespacedKey namespace;
     private MythicBukkit mythicMobs;
 
+    public HealthBar() {
+        super();
+    }
+
     /**
      * Needed for testing
      */
