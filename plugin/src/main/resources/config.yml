@@ -68,6 +68,7 @@ player-bars:
 
 
   # A list of disabled worlds for player bars.
+  # To enable all worlds, use: disabled-worlds: ''
   disabled-worlds: world_nether,world_the_end
 
 
@@ -118,10 +119,12 @@ mob-bars:
   use-custom-file: false
 
   # A list of disabled worlds for mob bars.
+  # To enable all worlds, use: disabled-worlds: ''
   disabled-worlds: world_nether,world_the_end
 
   # These mobs won't show the health.
   # The names are the same in locale.yml
+  # To enable all mobs, use: disabled-types: ''
   disabled-types: creeper,zombie,skeleton,iron_golem
 
 
