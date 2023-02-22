@@ -312,7 +312,7 @@ public final class EntityTrackerManager {
     @NotNull
     private String getName(@NotNull final LivingEntity mob) {
         if (!mob.getPersistentDataContainer().has(plugin.getNamespace(), PersistentDataType.BYTE))
-            return mob.getCustomName(); // Return real name
+            return (mob.getCustomName() == null ? mob.getName() : mob.getCustomName()); // Return real name
 
         final CustomNameSetting sb = namesTable.get(mob.getEntityId());
         if (sb != null)
