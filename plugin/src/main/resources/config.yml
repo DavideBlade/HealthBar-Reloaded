@@ -19,7 +19,7 @@ player-bars:
     enable: true
 
     # The style of the health bar, if text-mode is not set to true.
-    # You can choose between 6 different styles (1,2,3,4,5,6).
+    # You can choose between 7 different styles (1,2,3,4,5,6,7).
     display-style: 1
 
     # Always show health bars on players.
