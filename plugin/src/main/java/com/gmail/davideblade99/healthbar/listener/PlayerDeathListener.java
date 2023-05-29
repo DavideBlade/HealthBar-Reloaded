@@ -46,21 +46,21 @@ public final class PlayerDeathListener extends HealthBarListener {
                 if (damager instanceof Player) {
                     final ItemMeta itemMeta = ((Player) damager).getInventory().getItemInMainHand().getItemMeta();
                     if (itemMeta == null || !itemMeta.hasDisplayName())
-                        event.setDeathMessage(victim + " was slain by " + damager.getName());
+                        event.setDeathMessage(victim.getName() + " was slain by " + damager.getName());
                     else
-                        event.setDeathMessage(victim + " was slain by " + damager.getName() + " using " + itemMeta.getDisplayName());
+                        event.setDeathMessage(victim.getName() + " was slain by " + damager.getName() + " using " + itemMeta.getDisplayName());
                     return;
                 } else if (damager instanceof LivingEntity) {
-                    event.setDeathMessage(victim + " was slain by " + getName((LivingEntity) damager));
+                    event.setDeathMessage(victim.getName() + " was slain by " + getName((LivingEntity) damager));
                     return;
                 }
             } else if (containsAny(deathMessage, DeathMessages.EXPLOSION_FROM_ENTITY.identifiers)) {
                 if (damager instanceof Player) {
-                    event.setDeathMessage(victim + " was blown up by " + damager.getName());
+                    event.setDeathMessage(victim.getName() + " was blown up by " + damager.getName());
                     return;
                 }
                 if (damager instanceof LivingEntity) {
-                    event.setDeathMessage(victim + " was blown up by " + getName((LivingEntity) damager));
+                    event.setDeathMessage(victim.getName() + " was blown up by " + getName((LivingEntity) damager));
                     return;
                 }
             } else if (containsAny(deathMessage, DeathMessages.SHOTTED.identifiers)) {
@@ -72,11 +72,11 @@ public final class PlayerDeathListener extends HealthBarListener {
                         if (shooter instanceof Player) {
                             final ItemMeta itemMeta = ((Player) shooter).getInventory().getItemInMainHand().getItemMeta();
                             if (itemMeta == null || !itemMeta.hasDisplayName())
-                                event.setDeathMessage(victim + " was shot by " + shooter.getName());
+                                event.setDeathMessage(victim.getName() + " was shot by " + shooter.getName());
                             else
-                                event.setDeathMessage(victim + " was shot by " + shooter.getName() + " using " + itemMeta.getDisplayName());
+                                event.setDeathMessage(victim.getName() + " was shot by " + shooter.getName() + " using " + itemMeta.getDisplayName());
                         } else
-                            event.setDeathMessage(victim + " was shot by " + getName(shooter));
+                            event.setDeathMessage(victim.getName() + " was shot by " + getName(shooter));
 
                         return;
                     }
@@ -88,9 +88,9 @@ public final class PlayerDeathListener extends HealthBarListener {
                         final LivingEntity shooter = (LivingEntity) projectileSource;
 
                         if (projectileSource instanceof Player)
-                            event.setDeathMessage(victim + " was fireballed by " + shooter.getName());
+                            event.setDeathMessage(victim.getName() + " was fireballed by " + shooter.getName());
                         else
-                            event.setDeathMessage(victim + "was fireballed by " + getName(shooter));
+                            event.setDeathMessage(victim.getName() + "was fireballed by " + getName(shooter));
 
                         return;
                     }
@@ -99,63 +99,63 @@ public final class PlayerDeathListener extends HealthBarListener {
         }
 
         if (containsAny(deathMessage, DeathMessages.FALLING.identifiers)) {
-            event.setDeathMessage(victim + " fell from a high place");
+            event.setDeathMessage(victim.getName() + " fell from a high place");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.LAVA.identifiers)) {
-            event.setDeathMessage(victim + " tried to swim in lava");
+            event.setDeathMessage(victim.getName() + " tried to swim in lava");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.EXPLOSION.identifiers)) {
-            event.setDeathMessage(victim + " blew up");
+            event.setDeathMessage(victim.getName() + " blew up");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.BURNED.identifiers)) {
-            event.setDeathMessage(victim + " was burned to death");
+            event.setDeathMessage(victim.getName() + " was burned to death");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.ON_FIRED_BLOCK.identifiers)) {
-            event.setDeathMessage(victim + " went up in flames");
+            event.setDeathMessage(victim.getName() + " went up in flames");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.DROWNED.identifiers)) {
-            event.setDeathMessage(victim + " drowned");
+            event.setDeathMessage(victim.getName() + " drowned");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.SHOTTED.identifiers)) {
-            event.setDeathMessage(victim + " was shot by an arrow");
+            event.setDeathMessage(victim.getName() + " was shot by an arrow");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.SUFFOCATED.identifiers)) {
-            event.setDeathMessage(victim + " suffocated in a wall");
+            event.setDeathMessage(victim.getName() + " suffocated in a wall");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.STARVED.identifiers)) {
-            event.setDeathMessage(victim + " starved to death");
+            event.setDeathMessage(victim.getName() + " starved to death");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.MAGIC.identifiers)) {
-            event.setDeathMessage(victim + " was killed by magic");
+            event.setDeathMessage(victim.getName() + " was killed by magic");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.FIREBALL.identifiers)) {
-            event.setDeathMessage(victim + " was fireballed");
+            event.setDeathMessage(victim.getName() + " was fireballed");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.POKED.identifiers)) {
-            event.setDeathMessage(victim + " was pricked to death");
+            event.setDeathMessage(victim.getName() + " was pricked to death");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.OUT_OF_WORLD.identifiers)) {
-            event.setDeathMessage(victim + " fell out of the world");
+            event.setDeathMessage(victim.getName() + " fell out of the world");
             return;
         }
         if (containsAny(deathMessage, DeathMessages.SQUASHED.identifiers)) {
-            event.setDeathMessage(victim + " was squashed by a falling anvil");
+            event.setDeathMessage(victim.getName() + " was squashed by a falling anvil");
             return;
         }
 
-        event.setDeathMessage(victim + " died"); // Default message
+        event.setDeathMessage(victim.getName() + " died"); // Default message
     }
 
     /**
