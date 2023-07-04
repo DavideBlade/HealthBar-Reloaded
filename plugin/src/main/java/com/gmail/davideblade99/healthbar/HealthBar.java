@@ -29,7 +29,7 @@ import java.io.File;
  */
 public final class HealthBar extends JavaPlugin {
 
-    private final static String[] SUPPORTED_VERSIONS = {"1.17", "1.18", "1.19"};
+    private final static String[] SUPPORTED_VERSIONS = {"1.17", "1.18", "1.19", "1.20"};
     public final static String CHAT_PREFIX = "§2[§aHealthBar§2] ";
 
     private static HealthBar instance;
