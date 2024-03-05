@@ -3,6 +3,8 @@ package com.gmail.davideblade99.healthbar.util;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 public final class MobBarsUtil {
 
     /**
@@ -157,12 +159,12 @@ public final class MobBarsUtil {
      */
     @NotNull
     public static String[] getCustomBars(@NotNull final FileConfiguration config) {
-        final String[] barArray = new String[21];
+        final String[] barArray = new String[20];
 
         for (int i = 1; i < 21; i++) {
             final String cname = config.getString(i * 5 + "-percent-bar");
             if (cname != null)
-                barArray[i] = Utils.replaceSymbols(cname);
+                barArray[i-1] = Utils.replaceSymbols(cname);
         }
 
         return barArray;
