@@ -5,7 +5,7 @@ import com.gmail.davideblade99.healthbar.Settings;
 import com.gmail.davideblade99.healthbar.api.HealthBarAPI;
 import com.gmail.davideblade99.healthbar.util.CustomNameSetting;
 import com.gmail.davideblade99.healthbar.util.Utils;
-import io.lumine.mythic.bukkit.utils.lib.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -251,7 +251,7 @@ public final class EntityTrackerManager {
                 break;
 
             case DEFAULT_TEXT:
-                displayString = entity.getType().getKey().getKey().replaceAll("_", " ") + " " + Utils.roundUpPositive(health) + "§c❤";
+                displayString = StringUtils.capitalize(entity.getType().getKey().getKey()).replaceAll("_", " ") + " " + Utils.roundUpPositive(health) + "§c❤";
                 break;
 
             default:
