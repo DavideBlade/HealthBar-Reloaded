@@ -251,7 +251,7 @@ public final class EntityTrackerManager {
                 break;
 
             case DEFAULT_TEXT:
-                displayString = "Health: " + Utils.roundUpPositive(health) + "/" + Utils.roundUpPositive(max);
+                displayString = entity.getType().getKey().getKey().replaceAll("_", " ") + " " + Utils.roundUpPositive(health) + "§c❤";
                 break;
 
             default:
