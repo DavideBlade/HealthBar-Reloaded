@@ -23,7 +23,7 @@ I hope it can be as useful as it was years ago :) <br/><br/>
     <dependency>
         <groupId>com.gmail.davideblade99.healthbar</groupId>
         <artifactId>healthbar-plugin</artifactId>
-        <version>2.0.3.3</version> <!-- Update the version to the latest one! -->
+        <version>2.0.3.4</version> <!-- Update the version to the latest one! -->
         <scope>provided</scope>
     </dependency>
 </dependencies>
