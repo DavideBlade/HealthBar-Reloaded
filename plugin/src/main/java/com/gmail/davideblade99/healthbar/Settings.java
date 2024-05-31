@@ -9,6 +9,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public final class Settings {
     public final List<String> mobDisabledWorlds; // Disabled worlds names
     public final List<EntityType> mobDisabledTypes; // Disabled mobs
     public final Map<String, String> localeMap; // Name translation map
-    public final List<String> mobBar;
+    public final List<String> mobBar; // In bars mode, mob bars for various health %
 
     /* Generic settings */
     public final boolean barOnMythicMobs;
@@ -124,7 +125,7 @@ public final class Settings {
             else
                 this.mobBar = ImmutableList.copyOf(MobBarsUtil.getDefaultsBars(this.mobBarStyle));
         } else
-            this.mobBar = ImmutableList.copyOf(Utils.initialiseEmptyStringArray(21)); // Setup for health array
+            this.mobBar = null;
 
 
         this.barOnMythicMobs = !config.getBoolean(Nodes.HOOK_MYTHICMOBS.path);
@@ -135,8 +136,8 @@ public final class Settings {
     }
 
     /**
-     * If it does not exist, copy the config.yml from the .jar to the plugin folder and then check that it has all
-     * the settings inside. If any are missing, they are added with the default value.
+     * If it does not exist, copy the config.yml from the .jar to the plugin folder and then check that it has all the
+     * settings inside. If any are missing, they are added with the default value.
      *
      * @param plugin Plugin instance
      */

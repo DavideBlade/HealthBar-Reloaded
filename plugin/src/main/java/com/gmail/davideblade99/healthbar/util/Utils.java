@@ -18,9 +18,7 @@ import java.util.*;
 
 public final class Utils {
 
-    /**
-     * Enforce non-instantiability with a private constructor
-     */
+    /** Enforce non-instantiability with a private constructor */
     private Utils() {
         throw new IllegalAccessError();
     }
@@ -35,7 +33,7 @@ public final class Utils {
     @Contract("null -> null; !null -> !null")
     @Nullable
     public static String replaceSymbols(@Nullable final String input) {
-        if (input == null || input.length() == 0)
+        if (input == null || input.isEmpty())
             return input;
 
         // Replace colors and symbols
@@ -133,7 +131,7 @@ public final class Utils {
     @NotNull
     public static List<EntityType> getTypesFromString(@Nullable final String input) {
         final List<EntityType> list = new ArrayList<>();
-        if (input == null || input.length() == 0)
+        if (input == null || input.isEmpty())
             return list;
 
         for (String s : input.split(",")) {
@@ -170,7 +168,7 @@ public final class Utils {
      */
     public static int roundUpPositive(final double d) {
         int i = (int) d;
-        double remainder = d - i;
+        final double remainder = d - i;
         if (remainder > 0.0)
             i++;
 
@@ -181,28 +179,11 @@ public final class Utils {
      * @param d   Number to round up
      * @param max Upper limit
      *
-     * @return {@code max} if the number passed as parameter exceeds the maximum while it returns 0 if it is
-     * negative. If {@literal d > 0} and {@literal d <= max} then the number is rounded up and returned.
-     *
+     * @return {@code max} if the number passed as parameter exceeds the maximum while it returns 0 if it is negative. If
+     * {@literal d > 0} and {@literal d <= max} then the number is rounded up and returned.
      * @see #roundUpPositive(double)
      */
     public static int roundUpPositiveWithMax(final double d, final int max) {
         return d > max ? max : roundUpPositive(d);
-    }
-
-    /**
-     * Creates an array of empty strings of the specified size
-     *
-     * @param size Array length
-     *
-     * @return The string array created
-     *
-     * @since v.2.0.3
-     */
-    @NotNull
-    public static String[] initialiseEmptyStringArray(final int size) {
-        final String[] ret = new String[size];
-        Arrays.fill(ret, "");
-        return ret;
     }
 }

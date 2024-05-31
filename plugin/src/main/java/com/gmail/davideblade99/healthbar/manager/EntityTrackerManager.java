@@ -240,7 +240,7 @@ public final class EntityTrackerManager {
         final String displayString;
         switch (settings.mobBarType) {
             case BAR:
-                displayString = settings.mobBar.get(Utils.roundUpPositiveWithMax(health / max * 20.0, 20));
+                displayString = settings.mobBar.get(Utils.roundUpPositiveWithMax(health / max * 20.0, 20) - 1);
                 break;
 
             case CUSTOM_TEXT:
