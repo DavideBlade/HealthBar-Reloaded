@@ -28,6 +28,11 @@
             <groupId>io.lumine</groupId>
             <artifactId>Mythic-Dist</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.arcaneplugins</groupId>
+            <artifactId>levelledmobs-plugin</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

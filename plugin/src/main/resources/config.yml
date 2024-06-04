@@ -14,8 +14,8 @@ player-bars:
 
   after-name:
 
-    # Enable or disable the bars only after or before the
-    # player's tag. Doesn't disable the health under.
+    # Enable or disable the bars only after or before the player's tag.
+    # Doesn't disable the health under.
     enable: true
 
     # The style of the health bar, if text-mode is not set to true.
@@ -96,7 +96,7 @@ mob-bars:
   # Use your custom text, you will need to set 'text-mode: true'
   custom-text-enable: false
 
-  # The custom text: you can use these placeholder:
+  # The custom text. You can use these placeholder:
   # {name} = the name of the mob hit.
   # {health} = the current health.
   # {max} = the maximum health.
@@ -111,8 +111,7 @@ mob-bars:
   # You will need to set 'always-shown: false'.
   hide-delay-seconds: 5
 
-  # If enabled, health bars on mobs will be shown only if
-  # the player looks directly at him.
+  # If enabled, health bars on mobs will be shown only if the player looks directly at him.
   show-only-if-looking: false
 
   # You can choose to use your own made bars, it will override the previous settings.
@@ -123,15 +122,17 @@ mob-bars:
   disabled-worlds: world_nether,world_the_end
 
   # These mobs won't show the health.
-  # The names are the same in locale.yml
+  # The names are the same in locale.yml.
   # To enable all mobs, use: disabled-types: ''
   disabled-types: creeper,zombie,skeleton,iron_golem
 
-
-# Compatibility with other plugins
+# Compatibility with other plugins.
 hooks:
-  # If you have MythicMobs, enable this to hide health on mobs of the plugin
+  # If you are using MythicMobs, enable this to hide the health bar of HealthBar-Reloaded on MythicMobs mobs.
   MythicMobs: false
+  # If you are using LevelledMobs, choose which bar ('HealthBar' or 'LevelledMobs') to use on LevelledMobs mobs.
+  LevelledMobs: LevelledMobs
+
 
 
 

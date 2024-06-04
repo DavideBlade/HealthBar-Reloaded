@@ -5,6 +5,7 @@ import com.gmail.davideblade99.healthbar.Settings;
 import com.gmail.davideblade99.healthbar.api.HealthBarAPI;
 import com.gmail.davideblade99.healthbar.util.CustomNameSetting;
 import com.gmail.davideblade99.healthbar.util.Utils;
+import io.github.arcaneplugins.levelledmobs.events.MobPreLevelEvent;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -75,6 +76,10 @@ public final class EntityTrackerManager {
 
         // Check mobs of MythicMobs
         if (!settings.barOnMythicMobs && plugin.getMythicMobsAPI() != null && plugin.getMythicMobsAPI().isMythicMob(attacked))
+            return;
+
+        // Check mobs of LevelledMobs
+        if (!settings.barOnLevelledMobs.equalsIgnoreCase("HealthBar") && plugin.getLevelledMobsAPI() != null && plugin.getLevelledMobsAPI().isLevelled(attacked))
             return;
 
         // Custom name check

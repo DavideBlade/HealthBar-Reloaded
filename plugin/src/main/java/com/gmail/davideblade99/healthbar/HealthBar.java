@@ -6,6 +6,9 @@ import com.gmail.davideblade99.healthbar.command.Commands;
 import com.gmail.davideblade99.healthbar.listener.*;
 import com.gmail.davideblade99.healthbar.manager.EntityTrackerManager;
 import com.gmail.davideblade99.healthbar.manager.PlayerBarManager;
+import io.github.arcaneplugins.levelledmobs.LevelInterface;
+import io.github.arcaneplugins.levelledmobs.LevelInterface2;
+import io.github.arcaneplugins.levelledmobs.LevelledMobs;
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import org.bukkit.Bukkit;
@@ -38,6 +41,7 @@ public final class HealthBar extends JavaPlugin {
     private PlayerBarManager playerBarManager;
     private NamespacedKey namespace;
     private MythicBukkit mythicMobs;
+    private LevelInterface levelledMobs;
 
     public HealthBar() {
         super();
@@ -159,6 +163,10 @@ public final class HealthBar extends JavaPlugin {
 
         if (!settings.barInDeathMessages) // Register listener only if the plugin needs to fix death messages
             pm.registerEvents(new PlayerDeathListener(this), this);
+
+        // Register the listener only if the bar to be used on LevelledMobs mobs is the one configured in HealthBar
+        if (levelledMobs != null && settings.barOnLevelledMobs.equalsIgnoreCase("HealthBar"))
+            pm.registerEvents(new LevelledMobsHook(this), this);
     }
 
     /**
@@ -186,6 +194,9 @@ public final class HealthBar extends JavaPlugin {
     private void checkHooks() {
         if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs"))
             this.mythicMobs = MythicBukkit.inst();
+
+        if (Bukkit.getPluginManager().isPluginEnabled("LevelledMobs"))
+            this.levelledMobs = LevelledMobs.getInstance().getLevelInterface();
     }
 
     public Settings getSettings() {
@@ -214,5 +225,13 @@ public final class HealthBar extends JavaPlugin {
     @Nullable
     public BukkitAPIHelper getMythicMobsAPI() {
         return mythicMobs == null ? null : mythicMobs.getAPIHelper();
+    }
+
+    /**
+     * @return LevelledMobs API or {@code null} if the plugin is not installed or enabled
+     */
+    @Nullable
+    public LevelInterface getLevelledMobsAPI() {
+        return levelledMobs;
     }
 }

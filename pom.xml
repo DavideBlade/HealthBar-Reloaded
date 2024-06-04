@@ -98,6 +98,23 @@
                 <type>jar</type>
                 <optional>true</optional>
             </dependency>
+
+            <dependency>
+                <!-- https://mvnrepository.com/artifact/io.github.arcaneplugins/levelledmobs-plugin -->
+                <groupId>io.github.arcaneplugins</groupId>
+                <artifactId>levelledmobs-plugin</artifactId>
+                <version>4.0.3.1</version>
+                <scope>provided</scope>
+                <type>jar</type>
+                <optional>true</optional>
+                <!-- Necessary to exclude transitive dependencies due to LevelledMobs (required by Maven due to the non-ideal structure of the LevelledMobs pom.xml) -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
