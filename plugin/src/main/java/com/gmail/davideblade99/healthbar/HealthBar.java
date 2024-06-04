@@ -103,6 +103,7 @@ public final class HealthBar extends JavaPlugin {
         playerBarManager = null;
         namespace = null;
         mythicMobs = null;
+        levelledMobs = null;
 
         Bukkit.getConsoleSender().sendMessage("§aHealthBar disabled: all the health bars have been removed.");
     }
@@ -163,7 +164,7 @@ public final class HealthBar extends JavaPlugin {
 
         if (!settings.barInDeathMessages) // Register listener only if the plugin needs to fix death messages
             pm.registerEvents(new PlayerDeathListener(this), this);
-
+        
         // Register the listener only if the bar to be used on LevelledMobs mobs is the one configured in HealthBar
         if (levelledMobs != null && settings.barOnLevelledMobs.equalsIgnoreCase("HealthBar"))
             pm.registerEvents(new LevelledMobsHook(this), this);
