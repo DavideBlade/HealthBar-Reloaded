@@ -3,12 +3,12 @@ package com.gmail.davideblade99.healthbar;
 import com.gmail.davideblade99.healthbar.Updater.ResponseHandler;
 import com.gmail.davideblade99.healthbar.api.internal.BackendAPI;
 import com.gmail.davideblade99.healthbar.command.Commands;
+import com.gmail.davideblade99.healthbar.hooks.LevelledMobsHook;
+import com.gmail.davideblade99.healthbar.hooks.MythicMobsHook;
 import com.gmail.davideblade99.healthbar.listener.*;
 import com.gmail.davideblade99.healthbar.manager.EntityTrackerManager;
 import com.gmail.davideblade99.healthbar.manager.PlayerBarManager;
 import io.github.arcaneplugins.levelledmobs.LevelInterface;
-import io.github.arcaneplugins.levelledmobs.LevelInterface2;
-import io.github.arcaneplugins.levelledmobs.LevelledMobs;
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import org.bukkit.Bukkit;
@@ -164,10 +164,10 @@ public final class HealthBar extends JavaPlugin {
 
         if (!settings.barInDeathMessages) // Register listener only if the plugin needs to fix death messages
             pm.registerEvents(new PlayerDeathListener(this), this);
-        
+
         // Register the listener only if the bar to be used on LevelledMobs mobs is the one configured in HealthBar
         if (levelledMobs != null && settings.barOnLevelledMobs.equalsIgnoreCase("HealthBar"))
-            pm.registerEvents(new LevelledMobsHook(this), this);
+            pm.registerEvents(new LevelledMobsBarSet(this), this);
     }
 
     /**
@@ -194,10 +194,10 @@ public final class HealthBar extends JavaPlugin {
      */
     private void checkHooks() {
         if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs"))
-            this.mythicMobs = MythicBukkit.inst();
+            this.mythicMobs = new MythicMobsHook().getAPI();
 
         if (Bukkit.getPluginManager().isPluginEnabled("LevelledMobs"))
-            this.levelledMobs = LevelledMobs.getInstance().getLevelInterface();
+            this.levelledMobs = new LevelledMobsHook().getAPI();
     }
 
     public Settings getSettings() {

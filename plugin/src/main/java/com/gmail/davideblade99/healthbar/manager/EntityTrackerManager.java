@@ -49,10 +49,9 @@ public final class EntityTrackerManager {
 
     /**
      * Method that deals with performing all necessary actions at the time an entity is hit.
-     *
-     * Specifically, if the entity is among those that should have a health bar and if it is in a world where the
-     * plugin is not disabled, the method shows or updates the health bar and hides the bar after the delay (if
-     * set)
+     * <p>
+     * Specifically, if the entity is among those that should have a health bar and if it is in a world where the plugin is
+     * not disabled, the method shows or updates the health bar and hides the bar after the delay (if set)
      *
      * @param attacked        Entity hit
      * @param damagedByEntity Whether the entity has been hit by another entity
