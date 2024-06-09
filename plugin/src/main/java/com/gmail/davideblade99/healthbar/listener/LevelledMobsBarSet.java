@@ -22,7 +22,7 @@ public final class LevelledMobsBarSet extends HealthBarListener {
      *
      * @param event Event invoked when the level of a mob is changed
      *
-     * @since 2.0.3.5
+     * @since 2.0.3.6
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onMobLeveling(final MobPreLevelEvent event) {
