@@ -32,7 +32,7 @@ import java.io.File;
  */
 public final class HealthBar extends JavaPlugin {
 
-    private final static String[] SUPPORTED_VERSIONS = {"1.17", "1.18", "1.19", "1.20"};
+    private final static String[] SUPPORTED_VERSIONS = {"1.17", "1.18", "1.19", "1.20", "1.21"};
     public final static String CHAT_PREFIX = "§2[§aHealthBar§2] ";
 
     private static HealthBar instance;
@@ -58,7 +58,7 @@ public final class HealthBar extends JavaPlugin {
     public void onEnable() {
         if (!supportedVersion()) {
             final ConsoleCommandSender console = Bukkit.getConsoleSender();
-            console.sendMessage("§cThis version of HealthBar is compatible with the following versions: " + String.join(", ", SUPPORTED_VERSIONS));
+            console.sendMessage("§cThis version of HealthBar has been tested on the following versions: " + String.join(", ", SUPPORTED_VERSIONS));
             console.sendMessage("§cThe server is on a different version and the plugin may not work properly");
         }
 
