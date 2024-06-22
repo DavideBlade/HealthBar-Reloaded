@@ -243,7 +243,7 @@ public final class HealthBar extends JavaPlugin {
     }
 
     /**
-     * @return {@link AuraMobs} main class or {@code null} if the plugin is not installed or enabled
+     * @return The instance of the main class {@link AuraMobs} or {@code null} if the plugin is not installed or enabled
      */
     @Nullable
     public AuraMobs getAuraMobsMobs() {
