@@ -33,6 +33,11 @@
             <groupId>io.github.arcaneplugins</groupId>
             <artifactId>levelledmobs-plugin</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.Archy-X</groupId>
+            <artifactId>AuraMobs</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

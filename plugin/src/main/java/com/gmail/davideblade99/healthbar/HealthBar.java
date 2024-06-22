@@ -8,6 +8,7 @@ import com.gmail.davideblade99.healthbar.hooks.MythicMobsHook;
 import com.gmail.davideblade99.healthbar.listener.*;
 import com.gmail.davideblade99.healthbar.manager.EntityTrackerManager;
 import com.gmail.davideblade99.healthbar.manager.PlayerBarManager;
+import dev.aurelium.auramobs.AuraMobs;
 import io.github.arcaneplugins.levelledmobs.LevelInterface;
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import io.lumine.mythic.bukkit.MythicBukkit;
@@ -42,6 +43,7 @@ public final class HealthBar extends JavaPlugin {
     private NamespacedKey namespace;
     private MythicBukkit mythicMobs;
     private LevelInterface levelledMobs;
+    private AuraMobs auraMobs;
 
     public HealthBar() {
         super();
@@ -198,6 +200,10 @@ public final class HealthBar extends JavaPlugin {
 
         if (Bukkit.getPluginManager().isPluginEnabled("LevelledMobs"))
             this.levelledMobs = new LevelledMobsHook().getAPI();
+
+        // The API does not expose the method (AuraMobs#isAuraMob()) for checking whether an entity is an AuraMobs mob
+        if (Bukkit.getPluginManager().isPluginEnabled("AuraMobs"))
+            this.auraMobs = (AuraMobs) Bukkit.getPluginManager().getPlugin("AuraMobs");
     }
 
     public Settings getSettings() {
@@ -234,5 +240,13 @@ public final class HealthBar extends JavaPlugin {
     @Nullable
     public LevelInterface getLevelledMobsAPI() {
         return levelledMobs;
+    }
+
+    /**
+     * @return {@link AuraMobs} main class or {@code null} if the plugin is not installed or enabled
+     */
+    @Nullable
+    public AuraMobs getAuraMobsMobs() {
+        return auraMobs;
     }
 }

@@ -81,6 +81,10 @@ public final class EntityTrackerManager {
         if (!settings.barOnLevelledMobs.equalsIgnoreCase("HealthBar") && plugin.getLevelledMobsAPI() != null && plugin.getLevelledMobsAPI().isLevelled(attacked))
             return;
 
+        // Check mobs of AuraMobs
+        if (!settings.barOnAuraMobs && plugin.getAuraMobsMobs() != null && plugin.getAuraMobsMobs().isAuraMob(attacked))
+            return;
+
         // Custom name check
         if (isNamed(attacked)) {
             if (!settings.showMobBarOnCustomNames)

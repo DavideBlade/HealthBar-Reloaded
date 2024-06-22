@@ -57,15 +57,23 @@
     </modules>
 
     <repositories>
+        <!-- SpigotMC -->
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
+        <!-- MythicMobs -->
         <repository>
             <id>nexus</id>
             <name>Lumine Releases</name>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
+        </repository>
+
+        <!-- AuraMobs (https://jitpack.io/#Archy-X/AuraMobs) -->
+        <repository>
+            <id>AuraMobs</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -114,6 +122,16 @@
                         <artifactId>*</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <!-- AuraMobs (https://www.spigotmc.org/resources/94168/) -->
+            <dependency>
+                <groupId>com.github.Archy-X</groupId>
+                <artifactId>AuraMobs</artifactId>
+                <version>2.0.5</version>
+                <scope>provided</scope>
+                <type>jar</type>
+                <optional>true</optional>
             </dependency>
         </dependencies>
     </dependencyManagement>

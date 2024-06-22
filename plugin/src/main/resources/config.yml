@@ -132,6 +132,8 @@ hooks:
   MythicMobs: false
   # If you are using LevelledMobs, choose which bar ('HealthBar' or 'LevelledMobs') to use on LevelledMobs mobs.
   LevelledMobs: LevelledMobs
+  # If you are using AuraMobs, enable this to hide the health bar of HealthBar-Reloaded on AuraMobs mobs.
+  AuraMobs: false
 
 
 
