@@ -1,5 +1,6 @@
 package com.gmail.davideblade99.healthbar.manager;
 
+import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import com.gmail.davideblade99.healthbar.HealthBar;
 import com.gmail.davideblade99.healthbar.Settings;
 import com.gmail.davideblade99.healthbar.api.HealthBarAPI;
@@ -83,6 +84,10 @@ public final class EntityTrackerManager {
 
         // Check mobs of AuraMobs
         if (!settings.barOnAuraMobs && plugin.getAuraMobsMobs() != null && plugin.getAuraMobsMobs().isAuraMob(attacked))
+            return;
+
+        // Check stacked mobs (with WildStacker)
+        if (!settings.barOnStackedMobs && plugin.isWildStackerEnabled() && WildStackerAPI.getEntityAmount(attacked) > 1)
             return;
 
         // Custom name check

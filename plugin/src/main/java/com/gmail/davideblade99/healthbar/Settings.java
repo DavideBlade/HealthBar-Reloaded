@@ -57,6 +57,7 @@ public final class Settings {
     public final boolean barOnMythicMobs;
     public final String barOnLevelledMobs;
     public final boolean barOnAuraMobs;
+    public final boolean barOnStackedMobs; // WildStacker integration
     public final boolean barInDeathMessages;
     public final boolean fixTabNames;
     public final boolean usePlayerPermissions;
@@ -133,6 +134,7 @@ public final class Settings {
         this.barOnMythicMobs = !config.getBoolean(Nodes.HOOK_MYTHICMOBS.path);
         this.barOnLevelledMobs = config.getString(Nodes.HOOK_LEVELLEDMOBS.path);
         this.barOnAuraMobs = !config.getBoolean(Nodes.HOOK_AURAMOBS.path);
+        this.barOnStackedMobs = !config.getBoolean(Nodes.HOOK_WILDSTACKER.path);
         this.barInDeathMessages = config.getBoolean(Nodes.BAR_IN_DEATH_MESSAGES.path);
         this.usePlayerPermissions = config.getBoolean(Nodes.USE_PLAYER_PERMISSIONS.path);
         this.fixTabNames = config.getBoolean(Nodes.FIX_TAB_NAMES.path);
@@ -195,6 +197,7 @@ public final class Settings {
         HOOK_MYTHICMOBS("hooks.MythicMobs", false),
         HOOK_LEVELLEDMOBS("hooks.LevelledMobs", "LevelledMobs"),
         HOOK_AURAMOBS("hooks.AuraMobs", false),
+        HOOK_WILDSTACKER("hooks.WildStacker", false),
         FIX_TAB_NAMES("fix-tab-names", true),
         BAR_IN_DEATH_MESSAGES("bar-in-death-messages", false),
         USE_PLAYER_PERMISSIONS("use-player-bar-permissions", false),

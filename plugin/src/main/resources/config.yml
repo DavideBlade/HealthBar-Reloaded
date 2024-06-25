@@ -134,6 +134,8 @@ hooks:
   LevelledMobs: LevelledMobs
   # If you are using AuraMobs, enable this to hide the health bar of HealthBar-Reloaded on AuraMobs mobs.
   AuraMobs: false
+  # If you are using WildStacker, enable this to hide the health bar of HealthBar-Reloaded on stacked mobs.
+  WildStacker: false
 
 
 

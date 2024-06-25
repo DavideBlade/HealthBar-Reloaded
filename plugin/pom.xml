@@ -38,6 +38,11 @@
             <groupId>com.github.Archy-X</groupId>
             <artifactId>AuraMobs</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.bgsoftware</groupId>
+            <artifactId>WildStackerAPI</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

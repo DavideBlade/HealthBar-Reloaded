@@ -7,7 +7,7 @@ description: ${project.description}
 load: POSTWORLD
 database: false
 website: https://www.spigotmc.org/resources/healthbar-reloaded.104616/
-softdepend: [MythicMobs, LevelledMobs, AuraMobs]
+softdepend: [MythicMobs, LevelledMobs, AuraMobs, WildStacker]
 
 commands:
    healthbar:

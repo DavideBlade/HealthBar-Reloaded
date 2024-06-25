@@ -1,5 +1,7 @@
 package com.gmail.davideblade99.healthbar;
 
+import com.bgsoftware.wildstacker.api.WildStacker;
+import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import com.gmail.davideblade99.healthbar.Updater.ResponseHandler;
 import com.gmail.davideblade99.healthbar.api.internal.BackendAPI;
 import com.gmail.davideblade99.healthbar.command.Commands;
@@ -44,6 +46,7 @@ public final class HealthBar extends JavaPlugin {
     private MythicBukkit mythicMobs;
     private LevelInterface levelledMobs;
     private AuraMobs auraMobs;
+    private boolean wildStackerEnabled;
 
     public HealthBar() {
         super();
@@ -106,6 +109,8 @@ public final class HealthBar extends JavaPlugin {
         namespace = null;
         mythicMobs = null;
         levelledMobs = null;
+        auraMobs = null;
+        wildStackerEnabled = false;
 
         Bukkit.getConsoleSender().sendMessage("§aHealthBar disabled: all the health bars have been removed.");
     }
@@ -204,6 +209,9 @@ public final class HealthBar extends JavaPlugin {
         // The API does not expose the method (AuraMobs#isAuraMob()) for checking whether an entity is an AuraMobs mob
         if (Bukkit.getPluginManager().isPluginEnabled("AuraMobs"))
             this.auraMobs = (AuraMobs) Bukkit.getPluginManager().getPlugin("AuraMobs");
+
+        if (Bukkit.getPluginManager().isPluginEnabled("WildStacker"))
+            this.wildStackerEnabled = true;
     }
 
     public Settings getSettings() {
@@ -248,5 +256,12 @@ public final class HealthBar extends JavaPlugin {
     @Nullable
     public AuraMobs getAuraMobsMobs() {
         return auraMobs;
+    }
+
+    /**
+     * @return True if WildStacker has been properly installed and enabled, otherwise false
+     */
+    public boolean isWildStackerEnabled() {
+        return wildStackerEnabled;
     }
 }
