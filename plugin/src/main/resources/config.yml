@@ -81,8 +81,10 @@ mob-bars:
   # Choose to enable or disable mob health bar.
   enable: true
 
-  # Should the bar be shown on renamed mobs?
-  show-on-named-mobs: true
+  # Should the bar be shown on renamed mobs? If so, how?
+  # You can choose between "override", "append", and "no".
+  # Note: The “append” option is in beta.
+  show-on-named-mobs: override
 
   # The style for the bar. You can choose between 5 style (1,2,3,4,5).
   display-style: 1

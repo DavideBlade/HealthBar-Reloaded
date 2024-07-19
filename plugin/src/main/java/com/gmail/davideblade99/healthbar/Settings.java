@@ -9,7 +9,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +38,7 @@ public final class Settings {
 
     /* Mob settings */
     public final boolean mobBarEnabled;
-    public final boolean showMobBarOnCustomNames;
+    public final NamedMobPolicy barOnNamedMobPolicy;
     public final int mobBarStyle;
     public final boolean mobBarUseTextMode;
     public final boolean mobBarUseCustomText;
@@ -92,7 +91,19 @@ public final class Settings {
 
         /* Mob settings */
         this.mobBarEnabled = config.getBoolean(Nodes.MOB_ENABLE.path);
-        this.showMobBarOnCustomNames = config.getBoolean(Nodes.MOB_SHOW_ON_NAMED.path);
+        switch (config.getString(Nodes.MOB_SHOW_ON_NAMED.path).toLowerCase()) {
+            case "no":
+                this.barOnNamedMobPolicy = NamedMobPolicy.IGNORE;
+                break;
+
+            case "append":
+                this.barOnNamedMobPolicy = NamedMobPolicy.APPEND;
+                break;
+
+            default:
+                this.barOnNamedMobPolicy = NamedMobPolicy.OVERRIDE;
+                break;
+        }
         this.mobBarStyle = config.getInt(Nodes.MOB_STYLE.path);
         this.mobBarUseTextMode = config.getBoolean(Nodes.MOB_TEXT_MODE.path);
         this.mobBarUseCustomText = config.getBoolean(Nodes.MOB_CUSTOM_TEXT_ENABLE.path);
@@ -182,7 +193,7 @@ public final class Settings {
         PLAYERS_DISABLED_WORLDS("player-bars.disabled-worlds", "world_nether,world_the_end"),
 
         MOB_ENABLE("mob-bars.enable", true),
-        MOB_SHOW_ON_NAMED("mob-bars.show-on-named-mobs", true),
+        MOB_SHOW_ON_NAMED("mob-bars.show-on-named-mobs", "override"),
         MOB_STYLE("mob-bars.display-style", 1),
         MOB_ALWAYS_SHOWN("mob-bars.always-shown", false),
         MOB_TEXT_MODE("mob-bars.text-mode", false),
