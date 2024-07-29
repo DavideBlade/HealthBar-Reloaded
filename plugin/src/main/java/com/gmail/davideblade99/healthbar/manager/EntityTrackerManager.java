@@ -12,6 +12,7 @@ import io.lumine.mythic.bukkit.utils.lib.lang3.tuple.MutablePair;
 import kotlin.Pair;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
@@ -180,6 +181,7 @@ public final class EntityTrackerManager {
 
         if (plugin.getSettings().barOnNamedMobPolicy == NamedMobPolicy.OVERRIDE) {
             final CustomNameSetting nameSetting = namesTable.remove(mob.getEntityId());
+
             if (nameSetting != null) { // Return only if found, else hide normally
                 mob.setCustomName(nameSetting.getName());
                 mob.setCustomNameVisible(nameSetting.isShown());
@@ -188,10 +190,14 @@ public final class EntityTrackerManager {
             }
         } else if (plugin.getSettings().barOnNamedMobPolicy == NamedMobPolicy.APPEND) {
             final AppendedBar appendedBar = appendTable.remove(mob.getEntityId());
+
             if (appendedBar != null) { // Return only if found, else hide normally
                 final String customName = mob.getCustomName();
+
                 if (customName != null) { // If the custom name has not been removed in the meantime by a third party
-                    mob.setCustomName(customName.replace(" " + appendedBar.getBar(), ""));
+
+                    // The bar is appended to the right, so only the last occurrence has to be replaced: the rest is not the bar
+                    mob.setCustomName(customName.replaceAll(" ?" + appendedBar.getBar() + "$", ""));
                     mob.setCustomNameVisible(appendedBar.isShown());
                 }
 
