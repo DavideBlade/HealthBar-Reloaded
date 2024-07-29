@@ -4,15 +4,11 @@ import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import com.gmail.davideblade99.healthbar.HealthBar;
 import com.gmail.davideblade99.healthbar.NamedMobPolicy;
 import com.gmail.davideblade99.healthbar.Settings;
-import com.gmail.davideblade99.healthbar.api.HealthBarAPI;
 import com.gmail.davideblade99.healthbar.util.AppendedBar;
 import com.gmail.davideblade99.healthbar.util.CustomNameSetting;
 import com.gmail.davideblade99.healthbar.util.Utils;
-import io.lumine.mythic.bukkit.utils.lib.lang3.tuple.MutablePair;
-import kotlin.Pair;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
@@ -203,7 +199,7 @@ public final class EntityTrackerManager {
         }
 
         // Mob without a custom name (it only has the health bar): use default method (hide the name)
-        mob.setCustomName("");
+        mob.setCustomName(null);
         mob.setCustomNameVisible(false);
         mob.getPersistentDataContainer().remove(plugin.getNamespace());
     }
@@ -364,7 +360,7 @@ public final class EntityTrackerManager {
 
         final String translatedName = plugin.getSettings().localeMap.get(mob.getType().toString());
 
-        return (customName != null ?
+        return (customName != null && !customName.isEmpty() ?
                 customName : // Return the original custom name before the bar was applied
                 (
                         translatedName != null ?
@@ -400,6 +396,7 @@ public final class EntityTrackerManager {
             return customName;
 
         // The bar is appended to the right, so only the last occurrence has to be replaced: the rest is not the bar
-        return customName.replaceAll(" ?" + appendedBar.getBar() + "$", "");
+        final String originalName = customName.replaceAll(" ?" + appendedBar.getBar() + "$", "");
+        return originalName.isEmpty() ? null : originalName;
     }
 }
