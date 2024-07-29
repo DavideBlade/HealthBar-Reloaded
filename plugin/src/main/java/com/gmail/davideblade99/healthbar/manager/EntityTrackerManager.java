@@ -15,9 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
@@ -195,9 +193,7 @@ public final class EntityTrackerManager {
                 final String customName = mob.getCustomName();
 
                 if (customName != null) { // If the custom name has not been removed in the meantime by a third party
-
-                    // The bar is appended to the right, so only the last occurrence has to be replaced: the rest is not the bar
-                    mob.setCustomName(customName.replaceAll(" ?" + appendedBar.getBar() + "$", ""));
+                    mob.setCustomName(stripAppendedBar(mob));
                     mob.setCustomNameVisible(appendedBar.isShown());
                 }
 
@@ -343,7 +339,7 @@ public final class EntityTrackerManager {
     }
 
     /**
-     * Gets the custom name of the mob. If it is not set it fetches the translated name in the local.yml file.
+     * Gets the custom name of the mob. If it is not set it fetches the translated name in the locale.yml file.
      *
      * @param mob Entity of which get the custom name
      *
@@ -351,15 +347,31 @@ public final class EntityTrackerManager {
      */
     @NotNull
     private String getName(@NotNull final LivingEntity mob) {
-        if (!hasBar(mob))
-            return (mob.getCustomName() == null ? mob.getName() : mob.getCustomName()); // Return real name
+        String customName = mob.getCustomName();
 
-        final CustomNameSetting sb = namesTable.get(mob.getEntityId());
-        if (sb != null)
-            return sb.getName() != null ? sb.getName() : "";
+        if (hasBar(mob)) { // The custom name contains the bar
+
+            // Retrieves the original custom name before the bar was applied
+            switch (plugin.getSettings().barOnNamedMobPolicy) {
+                case OVERRIDE -> {
+                    final CustomNameSetting sb = namesTable.get(mob.getEntityId());
+
+                    customName = sb != null && sb.getName() != null ? sb.getName() : null;
+                }
+                case APPEND -> customName = stripAppendedBar(mob);
+            }
+        }
 
         final String translatedName = plugin.getSettings().localeMap.get(mob.getType().toString());
-        return translatedName != null ? translatedName : "";
+
+        return (customName != null ?
+                customName : // Return the original custom name before the bar was applied
+                (
+                        translatedName != null ?
+                                translatedName : // Return the translated name
+                                mob.getName() // Return real (vanilla) name
+                )
+        );
     }
 
     /**
@@ -371,5 +383,23 @@ public final class EntityTrackerManager {
      */
     private boolean isNamed(@NotNull final LivingEntity entity) {
         return entity.getCustomName() != null && !hasBar(entity);
+    }
+
+    /**
+     * Retrieves the original custom name that the entity had before the bar was appended
+     *
+     * @return The entity's custom name or {@code null} if it had none
+     * @since 2.0.4.1
+     */
+    @Nullable
+    private String stripAppendedBar(@NotNull final LivingEntity mob) {
+        final String customName = mob.getCustomName();
+        final AppendedBar appendedBar = appendTable.get(mob.getEntityId());
+
+        if (plugin.getSettings().barOnNamedMobPolicy != NamedMobPolicy.APPEND || !hasBar(mob) || customName == null || appendedBar == null)
+            return customName;
+
+        // The bar is appended to the right, so only the last occurrence has to be replaced: the rest is not the bar
+        return customName.replaceAll(" ?" + appendedBar.getBar() + "$", "");
     }
 }
