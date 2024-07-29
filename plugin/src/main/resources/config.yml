@@ -83,7 +83,6 @@ mob-bars:
 
   # Should the bar be shown on renamed mobs? If so, how?
   # You can choose between "override", "append", and "no".
-  # Note: The “append” option is in beta.
   show-on-named-mobs: override
 
   # The style for the bar. You can choose between 5 style (1,2,3,4,5).
