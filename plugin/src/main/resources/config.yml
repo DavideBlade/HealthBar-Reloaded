@@ -98,11 +98,14 @@ mob-bars:
   custom-text-enable: false
 
   # The custom text. You can use these placeholder:
-  # {name} = the name of the mob hit.
-  # {health} = the current health.
-  # {max} = the maximum health.
+  # {name} = the name of the mob hit, which will correspond to the first value found from the following:
+  #   1. Custom name of the mob (e.g. one set with a name tag)
+  #   2. The custom name set in the locale.yml file
+  #   3. The real (vanilla) name
+  # {health} = the current health
+  # {max} = the maximum health
   # <3 = a hearth symbol (❤)
-  # &4 / &n / &k ... = all the formatting codes.
+  # &4 / &n / &k ... = all the formatting codes
   #
   # For example this will be displayed as 'Creeper - 16/20'
   custom-text: '{name} - &a{health}/{max}'
