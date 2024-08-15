@@ -99,7 +99,7 @@ mob-bars:
 
   # The custom text. You can use these placeholder:
   # {name} = the name of the mob hit, which will correspond to the first value found from the following:
-  #   1. Custom name of the mob (e.g. one set with a name tag)
+  #   1. Custom name of the mob (e.g. the one set with a name tag)
   #   2. The custom name set in the locale.yml file
   #   3. The real (vanilla) name
   # {health} = the current health
