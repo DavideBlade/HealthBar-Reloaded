@@ -65,14 +65,14 @@
 
         <!-- MythicMobs -->
         <repository>
-            <id>nexus</id>
+            <id>MythicMobs-Nexus</id>
             <name>Lumine Releases</name>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
 
         <!-- AuraMobs (https://jitpack.io/#Archy-X/AuraMobs) -->
         <repository>
-            <id>AuraMobs</id>
+            <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
 
@@ -138,6 +138,13 @@
                 <scope>provided</scope>
                 <type>jar</type>
                 <optional>true</optional>
+                <!-- Necessary to exclude transitive dependencies of AuraMobs (required by Maven due to the non-ideal structure of AuraMobs project) -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- WildStacker (https://www.spigotmc.org/resources/87404/) -->
