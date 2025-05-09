@@ -183,7 +183,7 @@ public final class EntityTrackerManager {
                 return;
             }
         } else if (plugin.getSettings().barOnNamedMobPolicy == NamedMobPolicy.APPEND) {
-            final AppendedBar appendedBar = appendTable.remove(mob.getEntityId());
+            final AppendedBar appendedBar = appendTable.get(mob.getEntityId());
 
             if (appendedBar != null) { // Return only if found, else hide normally
                 final String customName = mob.getCustomName();
@@ -193,6 +193,7 @@ public final class EntityTrackerManager {
                     mob.setCustomNameVisible(appendedBar.isShown());
                 }
 
+                appendTable.remove(mob.getEntityId());
                 mob.getPersistentDataContainer().remove(plugin.getNamespace());
                 return;
             }
