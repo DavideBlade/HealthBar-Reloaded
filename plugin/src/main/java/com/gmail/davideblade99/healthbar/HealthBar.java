@@ -1,7 +1,5 @@
 package com.gmail.davideblade99.healthbar;
 
-import com.bgsoftware.wildstacker.api.WildStacker;
-import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import com.gmail.davideblade99.healthbar.Updater.ResponseHandler;
 import com.gmail.davideblade99.healthbar.api.internal.BackendAPI;
 import com.gmail.davideblade99.healthbar.command.Commands;
