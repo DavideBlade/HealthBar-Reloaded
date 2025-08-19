@@ -39,7 +39,7 @@ public final class EntityTrackerManager {
     /** Map the entity (ID) with its original custom name (before the health bar is applied) */
     private final Map<Integer, CustomNameSetting> namesTable = new HashMap<>();
 
-    /** Map the entity (ID) with the health bar appended to the existing mob custom name */
+    /** Map the entity (ID) with the health bar appended to the existing mob custom name (if any) */
     private final Map<Integer, AppendedBar> appendTable = new HashMap<>();
 
     private final HealthBar plugin;
@@ -223,7 +223,6 @@ public final class EntityTrackerManager {
      * Gets the real name of the mob, even if it doesn't have the health bar
      *
      * @param mob Mob whose name is being searched
-     *
      * @return The name of the mob or {@code null} if it has no name
      */
     @Nullable
@@ -245,7 +244,6 @@ public final class EntityTrackerManager {
      * Checks if an entity has a health bar
      *
      * @param entity Entity to check
-     *
      * @return True if the entity has the health bar, otherwise false
      */
     public boolean hasBar(@NotNull final LivingEntity entity) {
@@ -284,7 +282,17 @@ public final class EntityTrackerManager {
 
         if (settings.barOnNamedMobPolicy == NamedMobPolicy.APPEND) {
             final String currentCustomName = entity.getCustomName();
-            final AppendedBar oldBar = appendTable.put(entity.getEntityId(), new AppendedBar(displayString, entity.isCustomNameVisible()));
+            final AppendedBar oldBar = appendTable.get(entity.getEntityId());
+
+            appendTable.put(entity.getEntityId(), new AppendedBar(displayString,
+                            /*
+                             * If there is an oldBar, it means that HealthBar-Reloaded has already set a bar
+                             * and the custom name will surely be visible (otherwise the health bar won't be visible):
+                             * fetch the original boolean value of isCustomNameVisible() set by 3rd party or by default.
+                             */
+                            oldBar != null ? oldBar.isShown() : entity.isCustomNameVisible()
+                    )
+            );
 
             // Entity with a custom name set by third party: append the new bar, eventually replacing the old one
             if (currentCustomName != null && ((oldBar != null && !currentCustomName.equals(oldBar.getBar())) || !hasBar(entity)))
@@ -339,7 +347,6 @@ public final class EntityTrackerManager {
      * Gets the custom name of the mob. If it is not set it fetches the translated name in the locale.yml file.
      *
      * @param mob Entity of which get the custom name
-     *
      * @return The name to be placed in the health bar
      */
     @NotNull
@@ -375,7 +382,6 @@ public final class EntityTrackerManager {
      * Checks if the entity already has a custom name (set by another plugin or with a name tag)
      *
      * @param entity Entity to check
-     *
      * @return True if the entity has a custom name (not set by HealthBar), otherwise false
      */
     private boolean isNamed(@NotNull final LivingEntity entity) {
