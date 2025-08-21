@@ -27,10 +27,9 @@ public final class PlayerRenameEntityListener extends HealthBarListener {
         final Entity target = event.getRightClicked();
         if (event.getPlayer().getInventory().getItemInMainHand().getType() != Material.NAME_TAG)
             return;
-        if (!(target instanceof LivingEntity))
+        if (!(target instanceof final LivingEntity entity))
             return;
 
-        final LivingEntity entity = ((LivingEntity) target);
         // If the bar must always be shown, remove the name after 1 second
         if (plugin.getSettings().mobBarHideDelay == 0 && HealthBarAPI.hasBar(entity))
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> plugin.getEntityTrackerManager().registerMobHit(entity, true), 20L);

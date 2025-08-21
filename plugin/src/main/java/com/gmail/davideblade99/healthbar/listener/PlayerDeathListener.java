@@ -66,8 +66,7 @@ public final class PlayerDeathListener extends HealthBarListener {
             } else if (containsAny(deathMessage, DeathMessages.SHOTTED.identifiers)) {
                 if (damager instanceof Projectile) {
                     final ProjectileSource projectileSource = ((Projectile) damager).getShooter();
-                    if (projectileSource instanceof LivingEntity) {
-                        final LivingEntity shooter = (LivingEntity) projectileSource;
+                    if (projectileSource instanceof final LivingEntity shooter) {
 
                         if (shooter instanceof Player) {
                             final ItemMeta itemMeta = ((Player) shooter).getInventory().getItemInMainHand().getItemMeta();
@@ -84,8 +83,7 @@ public final class PlayerDeathListener extends HealthBarListener {
             } else if (containsAny(deathMessage, DeathMessages.FIREBALLED_BY_ENTITY.identifiers)) {
                 if (damager instanceof Projectile) {
                     final ProjectileSource projectileSource = ((Projectile) damager).getShooter();
-                    if (projectileSource instanceof LivingEntity) {
-                        final LivingEntity shooter = (LivingEntity) projectileSource;
+                    if (projectileSource instanceof final LivingEntity shooter) {
 
                         if (projectileSource instanceof Player)
                             event.setDeathMessage(victim.getName() + " was fireballed by " + shooter.getName());

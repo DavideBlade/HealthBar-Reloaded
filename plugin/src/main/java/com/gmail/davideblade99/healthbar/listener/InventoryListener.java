@@ -24,10 +24,9 @@ public final class InventoryListener extends HealthBarListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityInventoryOpen(final InventoryOpenEvent event) {
         final InventoryHolder holder = event.getInventory().getHolder();
-        if (!(holder instanceof LivingEntity))
+        if (!(holder instanceof final LivingEntity entity))
             return;
 
-        final LivingEntity entity = (LivingEntity) holder;
         if (HealthBarAPI.hasBar(entity))
             plugin.getEntityTrackerManager().hideMobBar(entity);
     }

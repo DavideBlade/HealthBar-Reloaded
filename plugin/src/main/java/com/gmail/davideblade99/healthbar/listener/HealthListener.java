@@ -37,10 +37,9 @@ public final class HealthListener extends HealthBarListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityDamageEvent(final EntityDamageEvent event) {
         final Entity entity = event.getEntity();
-        if (!(entity instanceof LivingEntity))
+        if (!(entity instanceof final LivingEntity living))
             return;
 
-        final LivingEntity living = (LivingEntity) entity;
         if (living.getNoDamageTicks() > living.getMaximumNoDamageTicks() / 2F)
             return;
 
@@ -48,6 +47,7 @@ public final class HealthListener extends HealthBarListener {
             // Need to schedule delayed since then the event is terminated and the health is updated
             if (plugin.getSettings().playerBarEnabled)
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> plugin.getEntityTrackerManager().registerPlayerHit((Player) entity, event instanceof EntityDamageByEntityEvent));
+
             return;
         }
 
