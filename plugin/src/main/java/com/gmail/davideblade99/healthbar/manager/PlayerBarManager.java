@@ -1,9 +1,6 @@
 package com.gmail.davideblade99.healthbar.manager;
 
-import com.gmail.davideblade99.healthbar.BarType;
-import com.gmail.davideblade99.healthbar.HealthBar;
-import com.gmail.davideblade99.healthbar.Permissions;
-import com.gmail.davideblade99.healthbar.Settings;
+import com.gmail.davideblade99.healthbar.*;
 import com.gmail.davideblade99.healthbar.api.BarHideEvent;
 import com.gmail.davideblade99.healthbar.util.Utils;
 import org.bukkit.attribute.Attribute;
@@ -48,9 +45,19 @@ public final class PlayerBarManager {
         if (player.hasMetadata("NPC"))
             return;
 
-        // If the plugin uses health bar after, and the delay is 0, set it
-        if (plugin.getSettings().afterBarEnabled && plugin.getSettings().barAfterHideDelay == 0)
-            plugin.getPlayerBarManager().setHealthSuffix(player);
+        final Settings settings = plugin.getSettings();
+        if(!settings.afterBarEnabled)
+            return; // The plugin doesn't use health bar after
+
+        // Check show condition threshold
+        if (settings.afterBarShowCondition instanceof BarShowCondition.BelowPercentage showCondition
+                && showCondition.percentage() <=
+                player.getHealth() / player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() * 100)
+            return;
+
+        // If health bar after is always shown, set it
+        if (settings.afterBarHideDelay == 0)
+            setHealthSuffix(player);
     }
 
     /**
@@ -143,7 +150,7 @@ public final class PlayerBarManager {
         final double health = player.getHealth();
         final double max = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 
-        if (plugin.getSettings().useCustomBarAfter || !plugin.getSettings().barAfterUseTextMode) {
+        if (plugin.getSettings().useCustomAfterBar || !plugin.getSettings().afterBarUseTextMode) {
             final int healthOn10 = Utils.roundUpPositiveWithMax(((health * 10.0) / max), 10);
             mainScoreboard.getTeam("hbr" + healthOn10).addEntry(player.getName());
         } else {
@@ -213,7 +220,7 @@ public final class PlayerBarManager {
         if (plugin.getSettings().playerAfterBarType == BarType.BAR)
             createCustomPlayerBar(mainScoreboard, Utils.loadYamlFile("custom-player-bar.yml", plugin));
         else if (plugin.getSettings().playerAfterBarType == BarType.CUSTOM_TEXT)
-            createDefaultPlayerBar(mainScoreboard, plugin.getSettings().barAfterStyle);
+            createDefaultPlayerBar(mainScoreboard, plugin.getSettings().afterBarStyle);
         // else creates the teams at the moment
 
         setAllTeamsInvisibility(mainScoreboard);

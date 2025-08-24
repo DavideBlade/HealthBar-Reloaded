@@ -42,7 +42,7 @@ public final class InventoryListener extends HealthBarListener {
         if (!(holder instanceof LivingEntity))
             return;
 
-        if (plugin.getSettings().mobBarHideDelay == 0)
-            plugin.getEntityTrackerManager().registerMobHit((LivingEntity) holder, true);
+        if (plugin.getSettings().isMobBarAlwaysSet())
+            plugin.getEntityTrackerManager().registerMobHit((LivingEntity) holder, false, true);
     }
 }

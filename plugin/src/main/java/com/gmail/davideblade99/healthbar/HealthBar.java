@@ -54,7 +54,8 @@ public final class HealthBar extends JavaPlugin {
      * Needed for testing
      */
     @SuppressWarnings("ProtectedMemberInFinalClass")
-    protected HealthBar(@NotNull final JavaPluginLoader loader, @NotNull final PluginDescriptionFile description, @NotNull final File dataFolder, @NotNull final File file) {
+    protected HealthBar(@NotNull final JavaPluginLoader loader, @NotNull final PluginDescriptionFile description,
+                        @NotNull final File dataFolder, @NotNull final File file) {
         super(loader, description, dataFolder, file);
     }
 
@@ -62,7 +63,8 @@ public final class HealthBar extends JavaPlugin {
     public void onEnable() {
         if (!supportedVersion()) {
             final ConsoleCommandSender console = Bukkit.getConsoleSender();
-            console.sendMessage("§cThis version of HealthBar has been tested on the following versions: " + String.join(", ", SUPPORTED_VERSIONS));
+            console.sendMessage("§cThis version of HealthBar has been tested on the following versions: " +
+                    String.join(", ", SUPPORTED_VERSIONS));
             console.sendMessage("§cThe server is on a different version and the plugin may not work properly");
         }
 
@@ -130,11 +132,11 @@ public final class HealthBar extends JavaPlugin {
      */
     private void showHealthBar() {
         // Show health bar on all entities
-        if (settings.mobBarHideDelay == 0) {
+        if (settings.isMobBarAlwaysSet()) {
             for (World world : Bukkit.getWorlds()) {
                 for (LivingEntity mob : world.getLivingEntities())
                     if (mob.getType() != EntityType.PLAYER)
-                        entityTrackerManager.registerMobHit(mob, true);
+                        entityTrackerManager.registerMobHit(mob, false, true);
             }
         }
 

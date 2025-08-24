@@ -28,9 +28,9 @@ public final class LevelledMobsBarSet extends HealthBarListener {
     public void onMobLeveling(final MobPreLevelEvent event) {
         event.setShowLMNametag(false); // Cancelling LevelledMobs bar
 
-        if (plugin.getSettings().mobBarHideDelay != 0)
+        if (!plugin.getSettings().isMobBarAlwaysSet())
             return; // If the bar does not always have to be shown
 
-        plugin.getEntityTrackerManager().registerMobHit(event.getEntity(), true);
+        plugin.getEntityTrackerManager().registerMobHit(event.getEntity(), false, true);
     }
 }

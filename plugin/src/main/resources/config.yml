@@ -22,17 +22,20 @@ player-bars:
     # You can choose between 7 different styles (1,2,3,4,5,6,7).
     display-style: 1
 
-    # Always show health bars on players.
-    always-shown: false
+    # When should the health bar be shown on players?
+    # always    = always visible
+    # on-damage = shown when the player is damaged
+    # below-x%  = shown when player's health is below the given % (1–99)
+    show-condition: on-damage
+
+    # How long, in seconds, the health bar after the player's name remains visible once shown.
+    # Applies to all time-based 'show-condition': on-damage, below-x%.
+    # Use -1 to keep the bar visible indefinitely once triggered.
+    hide-delay-seconds: 5
 
     # Shows the health with a text after the tag:
     # for example 'Steve - 18/20'
     text-mode: false
-
-    # The bar after the player's name is shown for the specified time when the player is hit.
-    # In other words, after the time specified by the hit has passed, the bar is hidden again.
-    # You will need to set 'always-shown: false'.
-    hide-delay-seconds: 5
 
     # You can choose to use your own made bars,
     # it will override the previous setting 'text-mode'.
@@ -88,8 +91,19 @@ mob-bars:
   # The style for the bar. You can choose between 5 style (1,2,3,4,5).
   display-style: 1
 
-  # Always show health bars on all the valid mobs.
-  always-shown: false
+  # When should the health bar be shown on all the valid mobs?
+  # always             = always visible
+  # always-when-look   = always visible when looking at the mob
+  # on-damage          = shown when the mob is damaged
+  # on-damage-or-look  = shown when the mob is damaged OR when looked at
+  # on-damage-and-look = shown when the mob is damaged when looking at it
+  # below-x%           = shown when mob's health is below the given % (1–99)
+  show-condition: on-damage
+
+  # How long, in seconds, the health bar remains visible once shown.
+  # Applies to all time-based 'show-condition': on-damage, on-damage-or-look, on-damage-and-look, below-x%.
+  # Use -1 to keep the bar visible indefinitely once triggered.
+  hide-delay-seconds: 5
 
   # Use text instead of bar.
   text-mode: false
@@ -98,7 +112,7 @@ mob-bars:
   custom-text-enable: false
 
   # The custom text. You can use these placeholder:
-  # {name} = the name of the mob hit, which will correspond to the first value found from the following:
+  # {name} = the name of the mob damaged, which will correspond to the first value found from the following:
   #   1. Custom name of the mob (e.g. the one set with a name tag)
   #   2. The custom name set in the locale.yml file
   #   3. The real (vanilla) name
@@ -109,14 +123,6 @@ mob-bars:
   #
   # For example this will be displayed as 'Creeper - 16/20'
   custom-text: '{name} - &a{health}/{max}'
-
-  # The health bar is shown for the specified time when the mob is hit.
-  # In other words, after the time specified by the hit has passed, the bar is hidden again.
-  # You will need to set 'always-shown: false'.
-  hide-delay-seconds: 5
-
-  # If enabled, health bars on mobs will be shown only if the player looks directly at him.
-  show-only-if-looking: false
 
   # You can choose to use your own made bars, it will override the previous settings.
   use-custom-file: false

@@ -14,9 +14,9 @@ public final class EntitySpawnListener extends HealthBarListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntitySpawn(final CreatureSpawnEvent event) {
-        if (plugin.getSettings().mobBarHideDelay != 0)
+        if (!plugin.getSettings().isMobBarAlwaysSet())
             return; // If the bar does not always have to be shown
 
-        plugin.getEntityTrackerManager().registerMobHit(event.getEntity(), true);
+        plugin.getEntityTrackerManager().registerMobHit(event.getEntity(), false, true);
     }
 }

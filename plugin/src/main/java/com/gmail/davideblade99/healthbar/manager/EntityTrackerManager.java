@@ -1,6 +1,10 @@
 package com.gmail.davideblade99.healthbar.manager;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
+import com.gmail.davideblade99.healthbar.BarShowCondition.AlwaysWhenLooking;
+import com.gmail.davideblade99.healthbar.BarShowCondition.BelowPercentage;
+import com.gmail.davideblade99.healthbar.BarShowCondition.OnDamageAndLooking;
+import com.gmail.davideblade99.healthbar.BarShowCondition.OnDamageOrLooking;
 import com.gmail.davideblade99.healthbar.HealthBar;
 import com.gmail.davideblade99.healthbar.NamedMobPolicy;
 import com.gmail.davideblade99.healthbar.Settings;
@@ -11,7 +15,9 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
@@ -49,15 +55,33 @@ public final class EntityTrackerManager {
     }
 
     /**
-     * <p>Method that deals with performing all necessary actions at the time an entity is hit.</p>
-     * <br/>
-     * <p>Specifically, if the entity is among those that should have a health bar and if it is in a world where the
-     * plugin is not disabled, the method shows or updates the health bar and hides the bar after the delay (if set).</p>
+     * Handles all actions required when a living entity is hit.
      *
-     * @param attacked        Entity hit
+     * If the entity qualifies for a health bar and the plugin is enabled in its world, this method will display or
+     * update the health bar and schedule its removal after the configured delay (if any).
+     *
+     * @param attacked        The entity that was hit
      * @param damagedByEntity Whether the entity has been hit by another entity
      */
     public void registerMobHit(@NotNull final LivingEntity attacked, final boolean damagedByEntity) {
+        this.registerMobHit(attacked, damagedByEntity, false);
+    }
+
+    /**
+     * Handles all actions required when a living entity is hit.
+     *
+     * If the entity qualifies for a health bar and the plugin is enabled in its world, this method will display or
+     * update the health bar and schedule its removal after the configured delay (if any).
+     *
+     * @param attacked        The entity that was hit
+     * @param damagedByEntity Whether the entity has been hit by another entity
+     * @param forceUpdate           Whether the health bar must be displayed even if it is not currently visible (as opposed
+     *                        to only updating an existing bar)
+     *
+     * @since 2.0.5
+     */
+    public void registerMobHit(@NotNull final LivingEntity attacked, final boolean damagedByEntity,
+                               final boolean forceUpdate) {
         // Entity type check
         final Settings settings = plugin.getSettings();
         final EntityType type = attacked.getType();
@@ -75,11 +99,13 @@ public final class EntityTrackerManager {
             return;
 
         // Check mobs of MythicMobs
-        if (!settings.barOnMythicMobs && plugin.getMythicMobsAPI() != null && plugin.getMythicMobsAPI().isMythicMob(attacked))
+        if (!settings.barOnMythicMobs && plugin.getMythicMobsAPI() != null && plugin.getMythicMobsAPI()
+                .isMythicMob(attacked))
             return;
 
         // Check mobs of LevelledMobs
-        if (!settings.barOnLevelledMobs.equalsIgnoreCase("HealthBar") && plugin.getLevelledMobsAPI() != null && plugin.getLevelledMobsAPI().isLevelled(attacked))
+        if (!"HealthBar".equalsIgnoreCase(settings.barOnLevelledMobs) && plugin.getLevelledMobsAPI() != null &&
+                plugin.getLevelledMobsAPI().isLevelled(attacked))
             return;
 
         // Check mobs of AuraMobs
@@ -97,7 +123,8 @@ public final class EntityTrackerManager {
                     return; // The bar must not be shown on renamed entities
 
                 case OVERRIDE:
-                    namesTable.put(attacked.getEntityId(), new CustomNameSetting(attacked.getCustomName(), attacked.isCustomNameVisible()));
+                    namesTable.put(attacked.getEntityId(),
+                            new CustomNameSetting(attacked.getCustomName(), attacked.isCustomNameVisible()));
                     break;
 
                 case APPEND:
@@ -105,41 +132,54 @@ public final class EntityTrackerManager {
             }
         }
 
+        // Check show condition threshold
+        if (settings.mobBarShowCondition instanceof BelowPercentage showCondition
+                && showCondition.percentage() <=
+                attacked.getHealth() / attacked.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() * 100)
+            return;
 
         // If the bar should remain visible
-        if (settings.mobBarHideDelay == 0) {
-            showMobHealthBar(attacked);
+        if (settings.mobBarHideDelay <= 0) {
+            showMobHealthBar(attacked, damagedByEntity);
             return;
         }
 
 
-        // Display always if hit by entity
+        // Always display if hit by entity
         if (damagedByEntity) {
             final Integer taskID = mobTable.remove(attacked.getEntityId());
             if (taskID != null)
                 Bukkit.getScheduler().cancelTask(taskID); // Eventually cancel previous task
 
-            showMobHealthBar(attacked);
+            showMobHealthBar(attacked, damagedByEntity);
             hideMobBarLater(attacked);
         } else {
             // It's not damaged by entity, if the health was displayed only update it
-            if (mobTable.containsKey(attacked.getEntityId()))
-                showMobHealthBar(attacked);
+            if (mobTable.containsKey(attacked.getEntityId()) || forceUpdate)
+                showMobHealthBar(attacked, damagedByEntity);
         }
     }
 
     public void registerPlayerHit(@NotNull final Player player, final boolean damagedByEntity) {
+        final Settings settings = plugin.getSettings();
         final String pname = player.getName();
 
         // Update the health bar under the name
         plugin.getPlayerBarManager().updateHealthBelow(player);
 
         // If the bar next to the name is not enabled return
-        if (!plugin.getSettings().afterBarEnabled)
+        if (!settings.afterBarEnabled)
             return;
 
+        // Check show condition threshold
+        if (settings.afterBarShowCondition instanceof BelowPercentage showCondition
+                && showCondition.percentage() <=
+                player.getHealth() / player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() * 100)
+            return;
+
+
         // Check whether the bar should always be shown
-        if (plugin.getSettings().barAfterHideDelay == 0) {
+        if (settings.afterBarHideDelay <= 0) {
             updatePlayerHealthBar(player);
             return;
         }
@@ -172,6 +212,12 @@ public final class EntityTrackerManager {
         final Integer id = mobTable.remove(mob.getEntityId());
         if (id != null)
             Bukkit.getScheduler().cancelTask(id);
+
+        // Leave the bar set, just show it when the player looks at it
+        if(plugin.getSettings().mobBarShowCondition instanceof OnDamageOrLooking) {
+            mob.setCustomNameVisible(false);
+            return;
+        }
 
         if (plugin.getSettings().barOnNamedMobPolicy == NamedMobPolicy.OVERRIDE) {
             final CustomNameSetting nameSetting = namesTable.remove(mob.getEntityId());
@@ -223,6 +269,7 @@ public final class EntityTrackerManager {
      * Gets the real name of the mob, even if it doesn't have the health bar
      *
      * @param mob Mob whose name is being searched
+     *
      * @return The name of the mob or {@code null} if it has no name
      */
     @Nullable
@@ -244,11 +291,13 @@ public final class EntityTrackerManager {
      * Checks if an entity has a health bar
      *
      * @param entity Entity to check
+     *
      * @return True if the entity has the health bar, otherwise false
      */
     public boolean hasBar(@NotNull final LivingEntity entity) {
         if (entity instanceof Player) {
-            final Team team = plugin.getServer().getScoreboardManager().getMainScoreboard().getEntryTeam(entity.getName());
+            final Team team =
+                    plugin.getServer().getScoreboardManager().getMainScoreboard().getEntryTeam(entity.getName());
 
             return team != null && team.getName().contains("hbr");
         } else
@@ -258,9 +307,12 @@ public final class EntityTrackerManager {
     /**
      * Build and display the health bar on the entity
      *
-     * @param entity Entity on which to show the bar
+     * @param entity      Entity on which to show the bar
+     * @param dueToAttack Whether the bar is displayed as a result of an attack sustained by the entity
+     *
+     * @since 2.0.5
      */
-    private void showMobHealthBar(@NotNull final LivingEntity entity) {
+    private void showMobHealthBar(@NotNull final LivingEntity entity, final boolean dueToAttack) {
         final Settings settings = plugin.getSettings();
         final double health = entity.getHealth();
         final double max = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
@@ -269,40 +321,47 @@ public final class EntityTrackerManager {
         if (health <= 0.0)
             return;
 
-        // What type of health should be displayed?
+         // What type of health should be displayed?
         String displayString = switch (settings.mobBarType) {
             case BAR -> settings.mobBar.get(Utils.roundUpPositiveWithMax(health / max * 20.0, 20) - 1);
             case CUSTOM_TEXT -> settings.mobBarCustomText
                     .replace("{h}", String.valueOf(Utils.roundUpPositive(health)))
                     .replace("{m}", String.valueOf(Utils.roundUpPositive(max)))
                     .replace("{n}", getName(entity));
-            case DEFAULT_TEXT ->
-                    StringUtils.capitalize(entity.getType().getKey().getKey()).replaceAll("_", " ") + " " + Utils.roundUpPositive(health) + "§c❤";
+            case DEFAULT_TEXT -> StringUtils.capitalize(entity.getType().getKey().getKey())
+                    .replaceAll("_", " ") + " " + Utils.roundUpPositive(health) + "§c❤";
         };
 
-        if (settings.barOnNamedMobPolicy == NamedMobPolicy.APPEND) {
+          if (settings.barOnNamedMobPolicy == NamedMobPolicy.APPEND) {
             final String currentCustomName = entity.getCustomName();
             final AppendedBar oldBar = appendTable.get(entity.getEntityId());
 
             appendTable.put(entity.getEntityId(), new AppendedBar(displayString,
-                            /*
-                             * If there is an oldBar, it means that HealthBar-Reloaded has already set a bar
-                             * and the custom name will surely be visible (otherwise the health bar won't be visible):
-                             * fetch the original boolean value of isCustomNameVisible() set by 3rd party or by default.
-                             */
-                            oldBar != null ? oldBar.isShown() : entity.isCustomNameVisible()
-                    )
+                    /*
+                     * If there is an oldBar, it means that HealthBar-Reloaded has already set a bar
+                     * and the custom name will surely be visible (otherwise the health bar won't be visible):
+                     * fetch the original boolean value of isCustomNameVisible() set by 3rd party or by default.
+                     */
+                    oldBar != null ? oldBar.isShown() : entity.isCustomNameVisible())
             );
 
             // Entity with a custom name set by third party: append the new bar, eventually replacing the old one
-            if (currentCustomName != null && ((oldBar != null && !currentCustomName.equals(oldBar.getBar())) || !hasBar(entity)))
-                displayString = (oldBar == null ? currentCustomName : currentCustomName.replace(" " + oldBar.getBar(), "")) + " " + displayString;
+            if (currentCustomName != null &&
+                    ((oldBar != null && !currentCustomName.equals(oldBar.getBar())) || !hasBar(entity)))
+                displayString = (oldBar == null ?
+                                 currentCustomName :
+                                 currentCustomName.replace(" " + oldBar.getBar(), "")) + " " + displayString;
         }
 
         entity.setCustomName(displayString);
         entity.getPersistentDataContainer().set(plugin.getNamespace(), PersistentDataType.BYTE, (byte) 1);
 
-        if (!settings.mobBarSemiHidden && displayString != null) // Check for visibility
+        // Check for visibility
+        if (displayString != null &&
+                !(settings.mobBarShowCondition instanceof AlwaysWhenLooking) &&
+                !(settings.mobBarShowCondition instanceof OnDamageAndLooking) &&
+                (!(settings.mobBarShowCondition instanceof OnDamageOrLooking) || dueToAttack)
+        )
             entity.setCustomNameVisible(true);
     }
 
@@ -340,13 +399,14 @@ public final class EntityTrackerManager {
         playerTable.put(player.getName(), Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             playerTable.remove(player.getName());
             plugin.getPlayerBarManager().hideAfterHealthBar(player);
-        }, plugin.getSettings().barAfterHideDelay));
+        }, plugin.getSettings().afterBarHideDelay));
     }
 
     /**
      * Gets the custom name of the mob. If it is not set it fetches the translated name in the locale.yml file.
      *
      * @param mob Entity of which get the custom name
+     *
      * @return The name to be placed in the health bar
      */
     @NotNull
@@ -372,8 +432,8 @@ public final class EntityTrackerManager {
                 customName : // Return the original custom name before the bar was applied
                 (
                         translatedName != null ?
-                                translatedName : // Return the translated name
-                                mob.getName() // Return real (vanilla) name
+                        translatedName : // Return the translated name
+                        mob.getName() // Return real (vanilla) name
                 )
         );
     }
@@ -382,6 +442,7 @@ public final class EntityTrackerManager {
      * Checks if the entity already has a custom name (set by another plugin or with a name tag)
      *
      * @param entity Entity to check
+     *
      * @return True if the entity has a custom name (not set by HealthBar), otherwise false
      */
     private boolean isNamed(@NotNull final LivingEntity entity) {
@@ -392,6 +453,7 @@ public final class EntityTrackerManager {
      * Retrieves the original custom name that the entity had before the bar was appended
      *
      * @return The entity's custom name or {@code null} if it had none
+     *
      * @since 2.0.4.1
      */
     @Nullable
@@ -399,7 +461,8 @@ public final class EntityTrackerManager {
         final String customName = mob.getCustomName();
         final AppendedBar appendedBar = appendTable.get(mob.getEntityId());
 
-        if (plugin.getSettings().barOnNamedMobPolicy != NamedMobPolicy.APPEND || !hasBar(mob) || customName == null || appendedBar == null)
+        if (plugin.getSettings().barOnNamedMobPolicy != NamedMobPolicy.APPEND || !hasBar(mob) || customName == null ||
+                appendedBar == null)
             return customName;
 
         // The bar is appended to the right, so only the last occurrence has to be replaced: the rest is not the bar

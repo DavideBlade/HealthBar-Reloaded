@@ -1,7 +1,6 @@
 package com.gmail.davideblade99.healthbar.util;
 
 import com.gmail.davideblade99.healthbar.manager.EntityTrackerManager;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**

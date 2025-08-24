@@ -31,8 +31,8 @@ public final class PlayerRenameEntityListener extends HealthBarListener {
             return;
 
         // If the bar must always be shown, remove the name after 1 second
-        if (plugin.getSettings().mobBarHideDelay == 0 && HealthBarAPI.hasBar(entity))
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> plugin.getEntityTrackerManager().registerMobHit(entity, true), 20L);
+        if (plugin.getSettings().isMobBarAlwaysSet() && HealthBarAPI.hasBar(entity))
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> plugin.getEntityTrackerManager().registerMobHit(entity, false, true), 20L);
 
         plugin.getEntityTrackerManager().hideMobBar(entity);
         entity.setCustomNameVisible(false);

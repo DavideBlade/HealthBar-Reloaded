@@ -22,12 +22,12 @@ public final class ChunkListener extends HealthBarListener {
      */
     @EventHandler
     public void onChunkLoad(final ChunkLoadEvent event) {
-        if (plugin.getSettings().mobBarHideDelay != 0)
+        if (!plugin.getSettings().isMobBarAlwaysSet())
             return; // If the bar does not always have to be shown
 
         for (Entity entity : event.getChunk().getEntities())
             if (entity instanceof LivingEntity && entity.getType() != EntityType.PLAYER)
-                plugin.getEntityTrackerManager().registerMobHit((LivingEntity) entity, true);
+                plugin.getEntityTrackerManager().registerMobHit((LivingEntity) entity, false, true);
     }
 
     /**
