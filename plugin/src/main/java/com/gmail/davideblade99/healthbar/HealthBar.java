@@ -53,6 +53,7 @@ public final class HealthBar extends JavaPlugin {
     /**
      * Needed for testing
      */
+    @SuppressWarnings("ProtectedMemberInFinalClass")
     protected HealthBar(@NotNull final JavaPluginLoader loader, @NotNull final PluginDescriptionFile description, @NotNull final File dataFolder, @NotNull final File file) {
         super(loader, description, dataFolder, file);
     }
