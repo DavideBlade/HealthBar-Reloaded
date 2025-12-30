@@ -146,6 +146,8 @@ hooks:
   AuraMobs: false
   # If you are using WildStacker, enable this to hide the health bar of HealthBar-Reloaded on stacked mobs.
   WildStacker: false
+  # If you are using EliteMobs, enable this to hide the health bar of HealthBar-Reloaded on EliteMobs mobs.
+  EliteMobs: false
 
 
 

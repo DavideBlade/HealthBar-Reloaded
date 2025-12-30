@@ -43,6 +43,11 @@
             <groupId>com.bgsoftware</groupId>
             <artifactId>WildStackerAPI</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.magmaguy</groupId>
+            <artifactId>EliteMobs</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

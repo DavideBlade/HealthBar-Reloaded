@@ -11,6 +11,7 @@ import com.gmail.davideblade99.healthbar.Settings;
 import com.gmail.davideblade99.healthbar.util.AppendedBar;
 import com.gmail.davideblade99.healthbar.util.CustomNameSetting;
 import com.gmail.davideblade99.healthbar.util.Utils;
+import com.magmaguy.elitemobs.entitytracker.EntityTracker;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -114,6 +115,10 @@ public final class EntityTrackerManager {
 
         // Check stacked mobs (with WildStacker)
         if (!settings.barOnStackedMobs && plugin.isWildStackerEnabled() && WildStackerAPI.getEntityAmount(attacked) > 1)
+            return;
+
+        // Check mobs of EliteMobs
+        if (!settings.barOnEliteMobs && plugin.isEliteMobsEnabled() && EntityTracker.isEliteMob(attacked))
             return;
 
         // Custom name check

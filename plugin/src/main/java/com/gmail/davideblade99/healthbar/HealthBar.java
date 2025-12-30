@@ -45,6 +45,7 @@ public final class HealthBar extends JavaPlugin {
     private LevelInterface levelledMobs;
     private AuraMobs auraMobs;
     private boolean wildStackerEnabled;
+    private boolean eliteMobsEnabled;
 
     public HealthBar() {
         super();
@@ -112,6 +113,7 @@ public final class HealthBar extends JavaPlugin {
         levelledMobs = null;
         auraMobs = null;
         wildStackerEnabled = false;
+        eliteMobsEnabled = false;
 
         Bukkit.getConsoleSender().sendMessage("§aHealthBar disabled: all the health bars have been removed.");
     }
@@ -213,6 +215,9 @@ public final class HealthBar extends JavaPlugin {
 
         if (Bukkit.getPluginManager().isPluginEnabled("WildStacker"))
             this.wildStackerEnabled = true;
+
+        if (Bukkit.getPluginManager().isPluginEnabled("EliteMobs"))
+            this.eliteMobsEnabled = true;
     }
 
     public Settings getSettings() {
@@ -264,5 +269,14 @@ public final class HealthBar extends JavaPlugin {
      */
     public boolean isWildStackerEnabled() {
         return wildStackerEnabled;
+    }
+
+    /**
+     * @return True if EliteMobs has been properly installed and enabled, otherwise false
+     *
+     * @since 2.0.6
+     */
+    public boolean isEliteMobsEnabled() {
+        return eliteMobsEnabled;
     }
 }

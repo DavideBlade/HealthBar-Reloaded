@@ -81,6 +81,12 @@
             <id>bg-repo</id>
             <url>https://repo.bg-software.com/repository/api/</url>
         </repository>
+
+        <!-- EliteMobs -->
+        <repository>
+            <id>magmaguy-repo-releases</id>
+            <url>https://repo.magmaguy.com/releases</url>
+        </repository>
     </repositories>
 
     <issueManagement>
@@ -155,6 +161,23 @@
                 <scope>provided</scope>
                 <type>jar</type>
                 <optional>true</optional>
+            </dependency>
+
+            <!-- EliteMobs (https://www.spigotmc.org/resources/elitemobs.40090/) -->
+            <dependency>
+                <groupId>com.magmaguy</groupId>
+                <artifactId>EliteMobs</artifactId>
+                <version>9.6.1</version>
+                <scope>provided</scope>
+                <type>jar</type>
+                <optional>true</optional>
+                <!-- Necessary to exclude transitive dependencies of EliteMobs (required by Maven due to the non-ideal structure of EliteMobs project) -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.magmaguy</groupId>
+                        <artifactId>MagmaCore</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
