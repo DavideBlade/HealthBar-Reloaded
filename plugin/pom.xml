@@ -14,6 +14,22 @@
     <name>HealthBar Plugin</name>
 
     <dependencies>
+        <!-- Test server. Declared before spigot-api: when two dependencies bring the same library (e.g. Guava), Maven
+             takes the version of the first one declared, and MockBukkit needs the newer ones that Paper brings -->
+        <dependency>
+            <groupId>org.mockbukkit.mockbukkit</groupId>
+            <artifactId>mockbukkit-v1.21</artifactId>
+            <version>4.116.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.21.11-R0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
@@ -79,6 +95,17 @@
         </resources>
 
         <plugins>
+            <!-- In the tests the server is MockBukkit (Paper API): keep the Spigot API off the test classpath -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <classpathDependencyExcludes>
+                        <classpathDependencyExclude>org.spigotmc:spigot-api</classpathDependencyExclude>
+                    </classpathDependencyExcludes>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>

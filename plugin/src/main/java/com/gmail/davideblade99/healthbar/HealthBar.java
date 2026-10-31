@@ -19,19 +19,15 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-
 /**
- * Main plugin class
+ * Main plugin class (not final: MockBukkit loads it through a subclass in the tests)
  */
-public final class HealthBar extends JavaPlugin {
+public class HealthBar extends JavaPlugin {
 
     private final static String[] SUPPORTED_VERSIONS = {"1.17", "1.18", "1.19", "1.20", "1.21"};
     public final static String CHAT_PREFIX = "§2[§aHealthBar§2] ";
@@ -49,15 +45,6 @@ public final class HealthBar extends JavaPlugin {
 
     public HealthBar() {
         super();
-    }
-
-    /**
-     * Needed for testing
-     */
-    @SuppressWarnings("ProtectedMemberInFinalClass")
-    protected HealthBar(@NotNull final JavaPluginLoader loader, @NotNull final PluginDescriptionFile description,
-                        @NotNull final File dataFolder, @NotNull final File file) {
-        super(loader, description, dataFolder, file);
     }
 
     @Override
