@@ -268,7 +268,6 @@
                             <exclude>**/healthbar/api/internal/**/*.java</exclude>
                         </sourceFileExcludes>
                         <links>
-                            <link>https://javadoc.io/doc/org.jetbrains/annotations/23.0.0</link>
                             <link>https://hub.spigotmc.org/javadocs/bukkit</link>
                             <link>https://www.mythiccraft.io/javadocs/mythic/</link>
                         </links>
