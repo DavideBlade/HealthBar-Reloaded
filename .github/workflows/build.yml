@@ -27,3 +27,47 @@ jobs:
 
       - name: Build and run the tests
         run: ./mvnw -B -ntp verify
+
+  # Supported Minecraft versions: the oldest one exactly, then the last release of every later major version. Kept in
+  # one file so that every job uses the same list.
+  versions:
+    name: Supported versions
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.read.outputs.list }}
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Read the list
+        id: read
+        run: echo "list=$(jq -c . .github/supported-versions.json)" >> "$GITHUB_OUTPUT"
+
+  # A method missing in an old API, or removed from a new one, is a compile error here
+  api:
+    name: Spigot API ${{ matrix.version }}
+    needs: versions
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.versions.outputs.list) }}
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: 25
+          cache: maven
+
+      - name: Compile against this API
+        env:
+          VERSION: ${{ matrix.version }}
+        run: ./mvnw -B -ntp -Dspigot-api.version="$VERSION" compile
