@@ -2,8 +2,8 @@ package com.gmail.davideblade99.healthbar.manager;
 
 import com.gmail.davideblade99.healthbar.*;
 import com.gmail.davideblade99.healthbar.api.BarHideEvent;
+import com.gmail.davideblade99.healthbar.util.AttributeUtil;
 import com.gmail.davideblade99.healthbar.util.Utils;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -52,7 +52,7 @@ public final class PlayerBarManager {
         // Check show condition threshold
         if (settings.afterBarShowCondition instanceof BarShowCondition.BelowPercentage showCondition
                 && showCondition.percentage() <=
-                player.getHealth() / player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() * 100)
+                player.getHealth() / player.getAttribute(AttributeUtil.MAX_HEALTH).getValue() * 100)
             return;
 
         // If health bar after is always shown, set it
@@ -134,7 +134,7 @@ public final class PlayerBarManager {
         if (settings.belowBarUseHearts)
             score = getRawAmountOfHearts(player);
         else if (settings.belowBarUseProportion)
-            score = Utils.roundUpPositive(player.getHealth() * (double) settings.belowBarProportion / player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+            score = Utils.roundUpPositive(player.getHealth() * (double) settings.belowBarProportion / player.getAttribute(AttributeUtil.MAX_HEALTH).getValue());
         else
             score = Utils.roundUpPositive(player.getHealth());
 
@@ -148,7 +148,7 @@ public final class PlayerBarManager {
      */
     public void setHealthSuffix(@NotNull final Player player) {
         final double health = player.getHealth();
-        final double max = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        final double max = player.getAttribute(AttributeUtil.MAX_HEALTH).getValue();
 
         if (plugin.getSettings().useCustomAfterBar || !plugin.getSettings().afterBarUseTextMode) {
             final int healthOn10 = Utils.roundUpPositiveWithMax(((health * 10.0) / max), 10);
@@ -244,7 +244,7 @@ public final class PlayerBarManager {
      */
     private static int getRawAmountOfHearts(@NotNull final Player player) {
         if (player.isHealthScaled())
-            return (int) Math.round(player.getHealth() * 10.0 / player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+            return (int) Math.round(player.getHealth() * 10.0 / player.getAttribute(AttributeUtil.MAX_HEALTH).getValue());
         else
             return (int) Math.round(player.getHealth() / 2);
     }

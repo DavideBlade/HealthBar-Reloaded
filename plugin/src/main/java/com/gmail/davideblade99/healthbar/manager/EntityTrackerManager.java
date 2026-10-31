@@ -9,13 +9,13 @@ import com.gmail.davideblade99.healthbar.HealthBar;
 import com.gmail.davideblade99.healthbar.NamedMobPolicy;
 import com.gmail.davideblade99.healthbar.Settings;
 import com.gmail.davideblade99.healthbar.util.AppendedBar;
+import com.gmail.davideblade99.healthbar.util.AttributeUtil;
 import com.gmail.davideblade99.healthbar.util.CustomNameSetting;
 import com.gmail.davideblade99.healthbar.util.Utils;
 import com.magmaguy.elitemobs.entitytracker.EntityTracker;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -140,7 +140,7 @@ public final class EntityTrackerManager {
         // Check show condition threshold
         if (settings.mobBarShowCondition instanceof BelowPercentage showCondition
                 && showCondition.percentage() <=
-                attacked.getHealth() / attacked.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() * 100)
+                attacked.getHealth() / attacked.getAttribute(AttributeUtil.MAX_HEALTH).getValue() * 100)
             return;
 
         // If the bar should remain visible
@@ -179,7 +179,7 @@ public final class EntityTrackerManager {
         // Check show condition threshold
         if (settings.afterBarShowCondition instanceof BelowPercentage showCondition
                 && showCondition.percentage() <=
-                player.getHealth() / player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() * 100)
+                player.getHealth() / player.getAttribute(AttributeUtil.MAX_HEALTH).getValue() * 100)
             return;
 
 
@@ -320,7 +320,7 @@ public final class EntityTrackerManager {
     private void showMobHealthBar(@NotNull final LivingEntity entity, final boolean dueToAttack) {
         final Settings settings = plugin.getSettings();
         final double health = entity.getHealth();
-        final double max = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        final double max = entity.getAttribute(AttributeUtil.MAX_HEALTH).getValue();
 
         // If the entity is dead
         if (health <= 0.0)

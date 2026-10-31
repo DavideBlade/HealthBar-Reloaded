@@ -1,6 +1,6 @@
 package com.gmail.davideblade99.healthbar;
 
-import org.bukkit.attribute.Attribute;
+import com.gmail.davideblade99.healthbar.util.AttributeUtil;
 import org.bukkit.entity.Damageable;
 
 import static com.gmail.davideblade99.healthbar.BarShowCondition.*;
@@ -49,7 +49,7 @@ public sealed interface BarShowCondition permits Always, AlwaysWhenLooking, OnDa
 
     /**
      * Show the health bar when the entity's {@link Damageable#getHealth() health} drops below a specified percentage
-     * compared to the {@link Attribute#GENERIC_MAX_HEALTH maximum health}.
+     * compared to the {@link AttributeUtil#MAX_HEALTH maximum health}.
      *
      * @param percentage The health percentage threshold (1–99).
      *
