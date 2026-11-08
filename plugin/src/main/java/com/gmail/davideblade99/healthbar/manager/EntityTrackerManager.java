@@ -13,7 +13,6 @@ import com.gmail.davideblade99.healthbar.util.AttributeUtil;
 import com.gmail.davideblade99.healthbar.util.CustomNameSetting;
 import com.gmail.davideblade99.healthbar.util.Utils;
 import com.magmaguy.elitemobs.entitytracker.EntityTracker;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -333,7 +332,7 @@ public final class EntityTrackerManager {
                     .replace("{h}", String.valueOf(Utils.roundUpPositive(health)))
                     .replace("{m}", String.valueOf(Utils.roundUpPositive(max)))
                     .replace("{n}", getName(entity));
-            case DEFAULT_TEXT -> StringUtils.capitalize(entity.getType().getKey().getKey())
+            case DEFAULT_TEXT -> Utils.capitalize(entity.getType().getKey().getKey())
                     .replaceAll("_", " ") + " " + Utils.roundUpPositive(health) + "§c❤";
         };
 

@@ -2,7 +2,7 @@ package com.gmail.davideblade99.healthbar.listener;
 
 import com.gmail.davideblade99.healthbar.HealthBar;
 import com.gmail.davideblade99.healthbar.api.HealthBarAPI;
-import org.apache.commons.lang.WordUtils;
+import com.gmail.davideblade99.healthbar.util.Utils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -167,7 +167,7 @@ public final class PlayerDeathListener extends HealthBarListener {
         if (customName != null)
             return customName; // Custom name (without bar)
 
-        return WordUtils.capitalizeFully(mob.getType().toString().replace("_", " ")); // Vanilla name
+        return Utils.capitalizeFully(mob.getType().toString().replace("_", " ")); // Vanilla name
     }
 
     /**

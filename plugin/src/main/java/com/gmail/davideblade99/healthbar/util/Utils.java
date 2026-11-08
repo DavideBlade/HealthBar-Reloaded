@@ -1,6 +1,5 @@
 package com.gmail.davideblade99.healthbar.util;
 
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
@@ -101,8 +100,8 @@ public final class Utils {
                 if (config.isSet(name))
                     localeMap.put(name, config.getString(name));
                 else {
-                    config.set(name, WordUtils.capitalizeFully(name.replace("_", " ")));
-                    localeMap.put(name, WordUtils.capitalizeFully(name.replace("_", " ")));
+                    config.set(name, capitalizeFully(name.replace("_", " ")));
+                    localeMap.put(name, capitalizeFully(name.replace("_", " ")));
                 }
             }
         }
@@ -185,5 +184,48 @@ public final class Utils {
      */
     public static int roundUpPositiveWithMax(final double d, final int max) {
         return d > max ? max : roundUpPositive(d);
+    }
+
+    /**
+     * Upper-cases the first character, leaving the rest as it is (e.g. "iron_golem" → "Iron_golem")
+     *
+     * @param text Text to capitalize
+     *
+     * @return The capitalized text
+     *
+     * @since 2.0.7
+     */
+    @NotNull
+    public static String capitalize(@NotNull final String text) {
+        if (text.isEmpty())
+            return text;
+
+        return Character.toTitleCase(text.charAt(0)) + text.substring(1);
+    }
+
+    /**
+     * Upper-cases the first character of every word and lower-cases the others (e.g. "IRON GOLEM" → "Iron Golem"). Words
+     * are separated by whitespace.
+     *
+     * @param text Text to capitalize
+     *
+     * @return The capitalized text
+     *
+     * @since 2.0.7
+     */
+    @NotNull
+    public static String capitalizeFully(@NotNull final String text) {
+        final char[] chars = text.toLowerCase(Locale.ROOT).toCharArray();
+        boolean wordStart = true;
+        for (int i = 0; i < chars.length; i++) {
+            if (Character.isWhitespace(chars[i]))
+                wordStart = true;
+            else if (wordStart) {
+                chars[i] = Character.toTitleCase(chars[i]);
+                wordStart = false;
+            }
+        }
+
+        return new String(chars);
     }
 }
