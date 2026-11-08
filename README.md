@@ -8,7 +8,7 @@ I hope it can be as useful as it was years ago :) <br/><br/>
 
 #### API Javadoc for developers: https://ci.codemc.io/job/DavideBlade/job/HealthBar-Reloaded/javadoc/
 
-## Maven
+## Maven (API)
 ```xml
 <repositories>
     <repository>
@@ -22,7 +22,7 @@ I hope it can be as useful as it was years ago :) <br/><br/>
 <dependencies>
     <dependency>
         <groupId>com.gmail.davideblade99.healthbar</groupId>
-        <artifactId>healthbar-plugin</artifactId>
+        <artifactId>healthbar-api</artifactId>
         <version>2.0.6</version> <!-- Update the version to the latest one! -->
         <scope>provided</scope>
     </dependency>
