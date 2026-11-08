@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class HealthBar extends JavaPlugin {
 
-    private final static String[] SUPPORTED_VERSIONS = {"1.17", "1.18", "1.19", "1.20", "1.21"};
+    private final static String[] SUPPORTED_VERSIONS = {"1.17.1", "1.18", "1.19", "1.20", "1.21", "26.1", "26.2", "26.3"};
     public final static String CHAT_PREFIX = "§2[§aHealthBar§2] ";
 
     private static HealthBar instance;
@@ -178,9 +178,9 @@ public class HealthBar extends JavaPlugin {
      * @return true if the Minecraft server version is supported, otherwise false
      */
     private boolean supportedVersion() {
-        final String serverVersion = Bukkit.getVersion();
+        final String serverVersion = Bukkit.getBukkitVersion();
         for (String version : SUPPORTED_VERSIONS)
-            if (serverVersion.contains(version))
+            if (serverVersion.startsWith(version + ".") || serverVersion.startsWith(version + "-"))
                 return true;
 
         return false;
