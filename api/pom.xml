@@ -20,11 +20,6 @@
         </dependency>
     </dependencies>
 
-    <properties>
-        <!-- Override the default setting and deploy the API -->
-        <maven.deploy.skip>false</maven.deploy.skip>
-    </properties>
-
     <build>
         <plugins>
             <plugin>

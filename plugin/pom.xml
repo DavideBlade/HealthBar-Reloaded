@@ -13,6 +13,11 @@
     <artifactId>healthbar-plugin</artifactId>
     <name>HealthBar Plugin</name>
 
+    <properties>
+        <!-- The plugin jar is published on Spigot, not in the Maven repository -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <dependencies>
         <!-- Test server. Declared before spigot-api: when two dependencies bring the same library (e.g. Guava), Maven
              takes the version of the first one declared, and MockBukkit needs the newer ones that Paper brings -->
