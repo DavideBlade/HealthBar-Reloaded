@@ -1,0 +1,39 @@
+# Spigot test servers for the latest and the oldest supported version
+name: healthbar-reloaded
+x-environment: &environment
+  EULA: "TRUE"
+  TYPE: SPIGOT
+  BUILD_FROM_SOURCE: "true" # Spigot cannot be downloaded: BuildTools builds it at the first start
+  MEMORY: 1536M
+  ONLINE_MODE: "FALSE"
+  # The jar is copied into the server at every start, also when it is older than the copy (e.g., with HB_JAR)
+  SYNC_SKIP_NEWER_IN_DESTINATION: "false"
+x-plugin: &plugin
+  type: bind
+  source: ${HB_JAR:-./plugin/target/HealthBar-Reloaded.jar}
+  target: /plugins/HealthBar-Reloaded.jar
+  read_only: true
+services:
+  spigot-26.3:
+    image: itzg/minecraft-server:2026.10.1-java25-jdk
+    environment:
+      <<: *environment
+      VERSION: "26.3"
+    ports: ["127.0.0.1:25565:25565"]
+    volumes:
+      - spigot-26.3:/data
+      - *plugin
+    stop_grace_period: 1m # Time to save the worlds
+  spigot-1.17.1:
+    image: itzg/minecraft-server:2026.10.1-java17-graalvm
+    environment:
+      <<: *environment
+      VERSION: "1.17.1"
+    ports: ["127.0.0.1:25566:25565"]
+    volumes:
+      - spigot-1.17.1:/data
+      - *plugin
+    stop_grace_period: 1m # Time to save the worlds
+volumes:
+  spigot-26.3:
+  spigot-1.17.1:

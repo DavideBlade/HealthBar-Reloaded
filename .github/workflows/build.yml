@@ -4,7 +4,7 @@ on:
   push:
     branches: [master]
     # A change only to these files needs no build
-    paths-ignore: ['**.md']
+    paths-ignore: ['**.md', 'compose.yaml']
   pull_request:
   workflow_dispatch:
 
