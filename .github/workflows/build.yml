@@ -87,8 +87,9 @@ jobs:
           VERSION: ${{ matrix.version }}
         run: ./mvnw -B -ntp -Dspigot-api.version="$VERSION" compile
 
-  # The jar must run on the Java of every supported server. For each Minecraft version, BuildTools publishes the Java
-  # versions that server accepts, as class file versions (60 = Java 16, 61 = Java 17, 65 = Java 21).
+  # The jar must run on every Java that a supported server accepts, from Java 17 (the minimum the Spigot page states) up.
+  # For each Minecraft version, BuildTools publishes the Java versions that server accepts, as class file versions
+  # (60 = Java 16, 61 = Java 17, 65 = Java 21).
   java:
     name: Java of the supported servers
     needs: [versions, build]
@@ -98,20 +99,25 @@ jobs:
         env:
           VERSIONS: ${{ needs.versions.outputs.list }}
           CLASS_VERSION: ${{ needs.build.outputs.class-version }}
+          MIN_JAVA: 61 # Java 17
         run: |
-          echo "| Server | Java it accepts | Runs the jar (Java $((CLASS_VERSION - 44)))? |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Server | Java it accepts | Runs the jar (Java $((CLASS_VERSION - 44))) on all of them, from Java $((MIN_JAVA - 44))? |" >> "$GITHUB_STEP_SUMMARY"
           echo "|---|---|---|" >> "$GITHUB_STEP_SUMMARY"
           failed=0
           for version in $(echo "$VERSIONS" | jq -r '.[]'); do
             range=$(curl -fsSL "https://hub.spigotmc.org/versions/$version.json" | jq -r '.javaVersions | "\(.[0]) \(.[1])"')
             set -- $range
-            if [ "$CLASS_VERSION" -le "$2" ]; then
-              runs=yes
+            # The oldest Java an owner of this server may use: the server's own minimum, but never below MIN_JAVA
+            oldest=$(( $1 > MIN_JAVA ? $1 : MIN_JAVA ))
+            runs=no
+            if [ "$oldest" -gt "$2" ]; then
+              echo "::error::Spigot $version runs only on Java $(($1 - 44)) to $(($2 - 44)), older than Java $((MIN_JAVA - 44))"
+            elif [ "$CLASS_VERSION" -gt "$oldest" ]; then
+              echo "::error::Spigot $version accepts Java $((oldest - 44)), the jar needs Java $((CLASS_VERSION - 44))"
             else
-              runs=no
-              failed=1
-              echo "::error::Spigot $version runs on Java $(($1 - 44)) to $(($2 - 44)), the jar needs Java $((CLASS_VERSION - 44))"
+              runs=yes
             fi
+            [ "$runs" = yes ] || failed=1
             echo "| $version | $(($1 - 44)) to $(($2 - 44)) | $runs |" >> "$GITHUB_STEP_SUMMARY"
           done
           exit $failed
