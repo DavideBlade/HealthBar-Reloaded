@@ -2,7 +2,16 @@ name: Build
 
 on:
   push:
+    branches: [master]
+    # A change only to these files needs no build
+    paths-ignore: ['**.md']
   pull_request:
+  workflow_dispatch:
+
+# A new push stops the run still going for the same branch or pull request
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 # The workflow only reads the repository: it publishes nothing
 permissions:
